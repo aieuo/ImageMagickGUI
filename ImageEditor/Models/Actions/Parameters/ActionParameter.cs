@@ -1,29 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ImageEditor.Models.Actions.Parameters
 {
-    internal class ActionParameter<T> : ActionParameter
+    public class ActionParameter<T>(string type, string description, in T value)
+        : ActionParameter(type, description)
     {
-        string ParameterType { get; }
-        string Description { get; }
-        T Value { get; set; }
+        private T _value = value;
 
-        public ActionParameter(string type, string description, in T defaultValue)
+        public T Value
         {
-            ParameterType = type;
-            Description = description;
-            Value = defaultValue;
+            get => _value;
+            set
+            {
+                _value = value;
+                NotifyPropertyChanged();
+            }
         }
     }
 
-    internal class ActionParameter
+    public class ActionParameter(string type, string description) : INotifyPropertyChanged
     {
-        internal ActionParameter()
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        protected void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        public string ParameterType { get; } = type;
+        public string Description { get; } = description;
     }
 }
