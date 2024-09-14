@@ -18,7 +18,8 @@ namespace ImageEditor.Models.Actions
 
         public float Angle = angle;
 
-        public override List<ActionParameter> Parameters => [
+        public override List<ActionParameter> Parameters =>
+        [
             new ActionParameter<float>("float", "角度", in Angle)
         ];
 

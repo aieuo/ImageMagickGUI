@@ -12,12 +12,12 @@
     </Window.DataContext>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="250"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="250" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="25"/>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="25" />
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0" Grid.Column="0" Margin="10">
@@ -41,18 +41,18 @@
                        PlacementTarget="{Binding ElementName=ButtonGroup}" Placement="Bottom"
                        HorizontalOffset="-35" VerticalOffset="-2"
                        IsOpen="{Binding IsPopupOpen}"
-		               AllowsTransparency="True" StaysOpen="False"
+                       AllowsTransparency="True" StaysOpen="False"
                        Width="200" Height="180">
                     <Border Background="White" BorderBrush="Gray"
                             BorderThickness="1" CornerRadius="8"
                             Width="200" Height="180">
                         <ScrollViewer VerticalScrollBarVisibility="Auto"
-                                      HorizontalScrollBarVisibility="Auto" 
+                                      HorizontalScrollBarVisibility="Auto"
                                       Padding="2,5">
                             <ListBox ItemsSource="{Binding Actions}" BorderThickness="0">
                                 <ListBox.ItemsPanel>
                                     <ItemsPanelTemplate>
-                                        <WrapPanel Width="180" >
+                                        <WrapPanel Width="180">
                                             <WrapPanel.Resources>
                                                 <Style TargetType="{x:Type Button}">
                                                     <Setter Property="Margin" Value="3,0" />
@@ -81,7 +81,7 @@
                                         </Style.Triggers>
                                     </Style>
                                 </ListBox.ItemContainerStyle>
-                                
+
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel>

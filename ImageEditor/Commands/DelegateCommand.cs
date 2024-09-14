@@ -14,7 +14,9 @@ namespace ImageEditor.Commands
 
         public event EventHandler CanExecuteChanged;
 
-        public DelegateCommand(Action<T> execute) : this(execute, () => true) { }
+        public DelegateCommand(Action<T> execute) : this(execute, () => true)
+        {
+        }
 
         public DelegateCommand(Action<T> execute, Func<bool> canExecute)
         {

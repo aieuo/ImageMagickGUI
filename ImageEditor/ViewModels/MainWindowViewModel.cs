@@ -19,6 +19,7 @@ namespace ImageEditor.ViewModels
         public ICommand TogglePopupCommand { get; private set; }
 
         private bool _isPopupOpen;
+
         public bool IsPopupOpen
         {
             get => _isPopupOpen;

@@ -26,7 +26,8 @@ namespace ImageEditor.Models.Actions
 
         private readonly FlipType Type = type;
 
-        public override List<ActionParameter> Parameters => [
+        public override List<ActionParameter> Parameters =>
+        [
             new ActionParameter<FlipType>("enum", "方向", in Type)
         ];
 

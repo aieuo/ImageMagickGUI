@@ -23,6 +23,7 @@ namespace ImageEditor.Models.Actions
                 instance = new ActionFactory();
                 instance.Init();
             }
+
             return instance;
         }
 
@@ -49,7 +50,7 @@ namespace ImageEditor.Models.Actions
                 throw new ArgumentException($"Action {name} is not registered.");
             }
 
-            return (Action) Actions[name].Clone();
+            return (Action)Actions[name].Clone();
         }
 
         public List<Action> All()
