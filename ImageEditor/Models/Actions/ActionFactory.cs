@@ -8,9 +8,9 @@ namespace ImageEditor.Models.Actions
 {
     internal class ActionFactory
     {
-        private static ActionFactory? instance = null;
+        private static ActionFactory? _instance = null;
 
-        private readonly Dictionary<string, Action> Actions = [];
+        private readonly Dictionary<string, Func<Action>> _actions = [];
 
         private ActionFactory()
         {
@@ -18,44 +18,42 @@ namespace ImageEditor.Models.Actions
 
         public static ActionFactory GetInstance()
         {
-            if (instance == null)
-            {
-                instance = new ActionFactory();
-                instance.Init();
-            }
+            if (_instance != null) return _instance;
+            
+            _instance = new ActionFactory();
+            _instance.Init();
 
-            return instance;
+            return _instance;
         }
 
         private void Init()
         {
-            RegisterAction(new RotateAction());
-            RegisterAction(new FlipAction());
+            RegisterAction(() => new RotateAction());
+            RegisterAction(() => new FlipAction());
         }
 
-        public void RegisterAction(Action action)
+        public void RegisterAction(Func<Action> actionCreator)
         {
-            if (Actions.ContainsKey(action.Name))
+            var action = actionCreator();
+            if (!_actions.TryAdd(action.Name, actionCreator))
             {
                 throw new ArgumentException($"Action {action.Name} is already registered.");
             }
-
-            Actions[action.Name] = action;
         }
 
         public Action Get(string name)
         {
-            if (!Actions.ContainsKey(name))
+            if (!_actions.TryGetValue(name, out var creator))
             {
                 throw new ArgumentException($"Action {name} is not registered.");
             }
 
-            return (Action)Actions[name].Clone();
+            return creator();
         }
 
         public List<Action> All()
         {
-            return [.. Actions.Values];
+            return _actions.Values.Select(creator => creator()).ToList();
         }
     }
 }

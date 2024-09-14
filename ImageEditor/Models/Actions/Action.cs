@@ -32,15 +32,10 @@ namespace ImageEditor.Models.Actions
         /// </summary>
         public abstract string IconPath { get; }
 
-        public abstract List<ActionParameter> Parameters { get; }
+        public List<ActionParameter> Parameters { get; } = [];
 
         public abstract Dictionary<string, string> GetCommandParameters();
 
         public abstract override string ToString();
-
-        public object Clone()
-        {
-            return MemberwiseClone();
-        }
     }
 }
