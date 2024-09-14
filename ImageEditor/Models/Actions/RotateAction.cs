@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ImageEditor.Models.Actions
 {
-    internal class RotateAction(float angle = 0) : Action()
+    internal class RotateAction : Action
     {
         public override string Name => "Rotate";
 
@@ -16,12 +16,14 @@ namespace ImageEditor.Models.Actions
         public override string IconPath => "../Resources/rotation.png";
 
 
-        public float Angle = angle;
+        public float Angle;
 
-        public override List<ActionParameter> Parameters =>
-        [
-            new ActionParameter<float>("float", "角度", in Angle)
-        ];
+        internal RotateAction(float angle = 0)
+        {
+            Angle = angle;
+            
+            Parameters.Add(new FloatParameter("float", "角度", in Angle, 0, 360));
+        }
 
         public override Dictionary<string, string> GetCommandParameters()
         {
