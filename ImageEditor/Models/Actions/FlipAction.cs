@@ -19,8 +19,8 @@ internal class FlipAction : Action
 
     private readonly Dictionary<FlipType, string> _allOptions = new()
     {
-        { FlipType.Flip, "左右反転させる" },
-        { FlipType.Flop, "上下反転させる" },
+        { FlipType.Flip, "上下反転させる" },
+        { FlipType.Flop, "左右反転させる" },
     };
 
 
