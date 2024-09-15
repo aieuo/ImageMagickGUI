@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ImageMagick;
 
 namespace ImageEditor.Models.Actions;
 
@@ -19,7 +20,13 @@ internal class RotateAction : Action
 
     internal RotateAction(float angle = 0)
     {
-        AddParameter(new FloatParameter("angle", "角度", angle, 1, 360));
+        AddParameter(new FloatParameter("angle", "角度", angle, 0, 360));
+    }
+
+    public override MagickImage ProcessImage(MagickImage image)
+    {
+        image.Rotate(GetParameter<FloatParameter>("angle").Value);
+        return image;
     }
 
     public override Dictionary<string, string> GetCommandParameters()

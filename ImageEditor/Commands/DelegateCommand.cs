@@ -5,33 +5,43 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace ImageEditor.Commands
+namespace ImageEditor.Commands;
+
+internal class DelegateCommand<T>(Action<T> execute, Func<bool> canExecute) : ICommand
 {
-    internal class DelegateCommand<T> : ICommand
+    public event EventHandler? CanExecuteChanged;
+
+    public DelegateCommand(Action<T> execute) : this(execute, () => true)
     {
-        private readonly Action<T> _execute;
-        private readonly Func<bool> _canExecute;
+    }
 
-        public event EventHandler CanExecuteChanged;
+    public void Execute(object parameter)
+    {
+        execute((T)parameter);
+    }
 
-        public DelegateCommand(Action<T> execute) : this(execute, () => true)
-        {
-        }
+    public bool CanExecute(object parameter)
+    {
+        return canExecute();
+    }
+}
 
-        public DelegateCommand(Action<T> execute, Func<bool> canExecute)
-        {
-            this._execute = execute;
-            this._canExecute = canExecute;
-        }
 
-        public void Execute(object parameter)
-        {
-            this._execute((T)parameter);
-        }
+internal class DelegateCommand(Action execute, Func<bool> canExecute) : ICommand
+{
+    public event EventHandler? CanExecuteChanged;
 
-        public bool CanExecute(object parameter)
-        {
-            return this._canExecute();
-        }
+    public DelegateCommand(Action execute) : this(execute, () => true)
+    {
+    }
+
+    public void Execute(object? parameter)
+    {
+        execute();
+    }
+
+    public bool CanExecute(object? parameter)
+    {
+        return canExecute();
     }
 }

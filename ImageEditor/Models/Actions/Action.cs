@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Schema;
+using ImageMagick;
 
 namespace ImageEditor.Models.Actions;
 
@@ -47,7 +48,7 @@ internal abstract class Action : INotifyPropertyChanged
         };
     }
 
-    public T GetParameter<T>(string parameterName) where T : ActionParameter
+    protected T GetParameter<T>(string parameterName) where T : ActionParameter
     {
         if (Parameters.SingleOrDefault(v => v.Name == parameterName) is not T param)
         {
@@ -58,4 +59,6 @@ internal abstract class Action : INotifyPropertyChanged
     }
 
     public abstract Dictionary<string, string> GetCommandParameters();
+    
+    public abstract MagickImage ProcessImage(MagickImage image);
 }

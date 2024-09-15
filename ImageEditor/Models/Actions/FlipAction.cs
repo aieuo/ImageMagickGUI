@@ -5,6 +5,7 @@ using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 using ImageEditor.Models.Actions.Parameters;
+using ImageMagick;
 
 namespace ImageEditor.Models.Actions;
 
@@ -35,6 +36,19 @@ internal class FlipAction : Action
     internal FlipAction(FlipType type = FlipType.Flip)
     {
         AddParameter(new EnumParameter<FlipType>("type", "方向", type, _allOptions));
+    }
+
+    public override MagickImage ProcessImage(MagickImage image)
+    {
+        if (GetParameter<EnumParameter<FlipType>>("type").Value == FlipType.Flip)
+        {
+            image.Flip();
+        }
+        else
+        {
+            image.Flop();
+        }
+        return image;
     }
 
     public override Dictionary<string, string> GetCommandParameters()
