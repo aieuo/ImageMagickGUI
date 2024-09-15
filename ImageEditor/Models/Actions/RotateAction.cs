@@ -5,37 +5,28 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ImageEditor.Models.Actions
+namespace ImageEditor.Models.Actions;
+
+internal class RotateAction : Action
 {
-    internal class RotateAction : Action
+    public override string Name => "Rotate";
+
+    public override string Description => "画像を回転させる";
+
+    public override string FormatedString => $"{GetParameter<FloatParameter>("angle")}度回転させる";
+
+    public override string IconPath => "../Resources/rotation.png";
+
+    internal RotateAction(float angle = 0)
     {
-        public override string Name => "Rotate";
+        AddParameter(new FloatParameter("angle", "角度", angle, 1, 360));
+    }
 
-        public override string Description => "画像を回転させる";
-
-        public override string IconPath => "../Resources/rotation.png";
-
-
-        public float Angle;
-
-        internal RotateAction(float angle = 0)
+    public override Dictionary<string, string> GetCommandParameters()
+    {
+        return new Dictionary<string, string>
         {
-            Angle = angle;
-            
-            Parameters.Add(new FloatParameter("float", "角度", in Angle, 0, 360));
-        }
-
-        public override Dictionary<string, string> GetCommandParameters()
-        {
-            return new Dictionary<string, string>
-            {
-                { "-rotate", $"+{Angle}" }
-            };
-        }
-
-        public override string ToString()
-        {
-            return $"{Angle}度回転させる";
-        }
+            { "-rotate", $"+{GetParameter<FloatParameter>("angle")}" }
+        };
     }
 }

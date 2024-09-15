@@ -10,5 +10,4 @@ namespace ImageEditor
     public partial class App : Application
     {
     }
-
 }

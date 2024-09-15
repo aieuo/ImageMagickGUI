@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using ImageEditor.Models.Actions.Parameters;
+using Action = ImageEditor.Models.Actions.Action;
 
 namespace ImageEditor.ViewModels
 {
@@ -33,11 +35,11 @@ namespace ImageEditor.ViewModels
             }
         }
 
-        public List<Models.Actions.Action> Actions { get; set; }
+        public List<Action> Actions { get; }
 
         public ICommand AddActionCommand { get; private set; }
 
-        public ObservableCollection<Models.Actions.Action> AddedActions { get; set; }
+        public ObservableCollection<Action> AddedActions { get; }
 
         public MainWindowViewModel()
         {
@@ -46,12 +48,20 @@ namespace ImageEditor.ViewModels
             Actions = ActionFactory.GetInstance().All();
             AddActionCommand = new DelegateCommand<string>(AddAction);
 
-            AddedActions = new ObservableCollection<Models.Actions.Action>();
+            AddedActions = [];
         }
 
         private void TogglePopup(bool open)
         {
             IsPopupOpen = open;
+            foreach (var item in AddedActions)
+            {
+                Console.WriteLine(item);
+                foreach (var v in item.Parameters)
+                {
+                    Console.WriteLine(v);
+                }
+            }
         }
 
         private void AddAction(string name)
@@ -61,6 +71,7 @@ namespace ImageEditor.ViewModels
             var action = ActionFactory.GetInstance().Get(name);
 
             AddedActions.Add(action);
+            action.PropertyChanged += (_, _) => NotifyPropertyChanged("AddedActions");
         }
     }
 }
