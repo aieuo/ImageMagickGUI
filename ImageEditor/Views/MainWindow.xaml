@@ -10,6 +10,7 @@
         xmlns:params="clr-namespace:ImageEditor.Models.Actions.Parameters"
         xmlns:zp="https://github.com/Moravuscz/WPFZoomPanel"
         xmlns:cpl="clr-namespace:ColorPickerLib.Controls;assembly=ColorPickerLib"
+        xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
         mc:Ignorable="d"
         Title="ImageEditor" Height="720" Width="1280">
 
@@ -189,7 +190,9 @@
 
             <ListBox Grid.Row="1" BorderThickness="2"
                      ItemsSource="{Binding AddedActions}"
-                     SelectedItem="{Binding SelectedAction, Mode=OneWayToSource}">
+                     SelectedItem="{Binding SelectedAction, Mode=OneWayToSource}"
+                     dd:DragDrop.IsDragSource="True"
+                     dd:DragDrop.IsDropTarget="True">
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="{x:Type ListBoxItem}">
                         <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
