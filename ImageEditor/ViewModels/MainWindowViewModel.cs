@@ -94,7 +94,7 @@ internal class MainWindowViewModel : ViewModelBase
     
     public event EventHandler<MvvmMessageBoxEventArgs>? DeleteActionDialogRequest;
 
-    private string _sidePanelFooterMessage = "test";
+    private string _sidePanelFooterMessage = "";
 
     public string SidePanelFooterMessage
     {
@@ -190,24 +190,20 @@ internal class MainWindowViewModel : ViewModelBase
         }
 
         _processingImage = true;
-        Console.WriteLine("ProcessImage");
 
         await Task.Run(() =>
         {
             var tmp = (MagickImage)OriginalImage.Clone();
             foreach (var action in AddedActions.ToList())
             {
-                var start = DateTime.Now;
                 action.ProcessImage(tmp);
-                Console.Write($"{action}: ");
-                Console.WriteLine((DateTime.Now - start).TotalMilliseconds);
             }
 
             ProcessedImage = tmp;
-            Console.WriteLine("FinishProcessImage");
         });
 
         _processingImage = false;
+        
         if (_shouldProcessImage)
         {
             _shouldProcessImage = false;
