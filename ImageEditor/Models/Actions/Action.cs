@@ -60,5 +60,5 @@ internal abstract class Action : INotifyPropertyChanged
 
     public abstract Dictionary<string, string> GetCommandParameters();
     
-    public abstract MagickImage ProcessImage(MagickImage image);
+    public abstract void ProcessImage(MagickImage image);
 }

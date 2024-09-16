@@ -38,7 +38,7 @@ internal class FlipAction : Action
         AddParameter(new EnumParameter<FlipType>("type", "方向", type, _allOptions));
     }
 
-    public override MagickImage ProcessImage(MagickImage image)
+    public override void ProcessImage(MagickImage image)
     {
         if (GetParameter<EnumParameter<FlipType>>("type").Value == FlipType.Flip)
         {
@@ -48,7 +48,6 @@ internal class FlipAction : Action
         {
             image.Flop();
         }
-        return image;
     }
 
     public override Dictionary<string, string> GetCommandParameters()

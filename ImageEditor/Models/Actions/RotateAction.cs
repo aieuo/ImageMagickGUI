@@ -23,10 +23,9 @@ internal class RotateAction : Action
         AddParameter(new FloatParameter("angle", "角度", angle, 0, 360));
     }
 
-    public override MagickImage ProcessImage(MagickImage image)
+    public override void ProcessImage(MagickImage image)
     {
         image.Rotate(GetParameter<FloatParameter>("angle").Value);
-        return image;
     }
 
     public override Dictionary<string, string> GetCommandParameters()
