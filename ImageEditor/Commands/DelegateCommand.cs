@@ -15,12 +15,12 @@ internal class DelegateCommand<T>(Action<T> execute, Func<bool> canExecute) : IC
     {
     }
 
-    public void Execute(object parameter)
+    public void Execute(object? parameter)
     {
-        execute((T)parameter);
+        execute((T)parameter!);
     }
 
-    public bool CanExecute(object parameter)
+    public bool CanExecute(object? parameter)
     {
         return canExecute();
     }
