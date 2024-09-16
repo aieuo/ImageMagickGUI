@@ -8,6 +8,25 @@
         <s:Boolean x:Key="True">True</s:Boolean>
         <s:Boolean x:Key="False">False</s:Boolean>
         
+        <Style x:Key="NoHoverEffectStyle" TargetType="{x:Type ListBoxItem}">
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ContentControl}">
+                        <Border Background="{TemplateBinding Background}">
+                            <ContentPresenter />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="Transparent" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        
         <ResourceDictionary x:Key="ColorPickerLib">
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/ColorPickerLib;component/Themes/LightBrushs.xaml" />

@@ -19,25 +19,6 @@
     </Window.DataContext>
 
     <Window.Resources>
-        <Style x:Key="NoHoverEffect" TargetType="{x:Type ListBoxItem}">
-            <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type ContentControl}">
-                        <Border Background="{TemplateBinding Background}">
-                            <ContentPresenter />
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-
-            <Style.Triggers>
-                <Trigger Property="IsSelected" Value="True">
-                    <Setter Property="Background" Value="Transparent" />
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-
         <DataTemplate x:Key="FloatParamTemplate"
                       DataType="{x:Type params:FloatParameter}">
             <StackPanel>
@@ -148,7 +129,7 @@
                                       Padding="2,5">
                             <ListBox ItemsSource="{Binding Actions}"
                                      BorderThickness="0"
-                                     ItemContainerStyle="{StaticResource NoHoverEffect}">
+                                     ItemContainerStyle="{StaticResource NoHoverEffectStyle}">
                                 <ListBox.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <WrapPanel Width="180">
@@ -204,7 +185,7 @@
                             <Expander>
                                 <ListBox ItemsSource="{Binding Parameters}"
                                          ItemTemplateSelector="{StaticResource InputTemplateSelector}"
-                                         ItemContainerStyle="{StaticResource NoHoverEffect}"
+                                         ItemContainerStyle="{StaticResource NoHoverEffectStyle}"
                                          Margin="-5,5,-5,-2"
                                          Padding="7,2,7,4"
                                          BorderThickness="0"
