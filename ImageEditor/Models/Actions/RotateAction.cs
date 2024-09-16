@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 using ImageMagick;
 
 namespace ImageEditor.Models.Actions;
@@ -18,13 +19,20 @@ internal class RotateAction : Action
 
     public override string IconPath => "../Resources/rotation.png";
 
-    internal RotateAction(float angle = 0)
+    internal RotateAction(float angle = 0) : this(angle, Colors.Transparent)
     {
-        AddParameter(new FloatParameter("angle", "角度", angle, 0, 360));
+    }
+
+    internal RotateAction(float angle, Color color)
+    {
+        AddParameter(new FloatParameter("angle", "角度 (度)", angle, 0, 360));
+        AddParameter(new ColorParameter("color", "余白の色", color));
     }
 
     public override void ProcessImage(MagickImage image)
     {
+        var color = GetParameter<ColorParameter>("color").Value;
+        image.BackgroundColor = new MagickColor(color.R, color.G, color.B, color.A);
         image.Rotate(GetParameter<FloatParameter>("angle").Value);
     }
 

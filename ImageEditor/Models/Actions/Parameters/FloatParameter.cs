@@ -1,6 +1,6 @@
 namespace ImageEditor.Models.Actions.Parameters;
 
-public class FloatParameter(string name, string description, in float value, float? minValue = null, float? maxValue = null)
+public class FloatParameter(string name, string description, float value, float? minValue = null, float? maxValue = null)
     : ActionParameter<float>(name, description, value)
 {
     public float? MinValue { get; } = minValue;

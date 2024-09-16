@@ -30,6 +30,7 @@ internal class ActionFactory
     {
         RegisterAction(() => new RotateAction());
         RegisterAction(() => new FlipAction());
+        RegisterAction(() => new TrimAction());
     }
 
     public void RegisterAction(Func<Action> actionCreator)
