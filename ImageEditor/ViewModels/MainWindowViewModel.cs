@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -24,7 +25,22 @@ namespace ImageEditor.ViewModels;
 
 internal class MainWindowViewModel : ViewModelBase
 {
+    #region Commands
+
     public ICommand TogglePopupCommand { get; private set; }
+
+    public ICommand AddActionCommand { get; private set; }
+
+    public ICommand DeleteActionCommand { get; private set; }
+
+    public ICommand LoadImageCommand { get; private set; }
+
+    public ICommand SaveImageCommand { get; private set; }
+
+    #endregion
+
+
+    #region Properties
 
     private bool _isPopupOpen;
 
@@ -36,9 +52,6 @@ internal class MainWindowViewModel : ViewModelBase
 
     public List<Action> Actions { get; }
 
-    public ICommand AddActionCommand { get; private set; }
-    public ICommand DeleteActionCommand { get; private set; }
-
     public ObservableCollection<Action> AddedActions { get; }
 
     private Action? _selectedAction = null;
@@ -48,8 +61,6 @@ internal class MainWindowViewModel : ViewModelBase
         get => _selectedAction;
         set => SetProperty(ref _selectedAction, value);
     }
-
-    public ICommand LoadImageCommand { get; private set; }
 
     private Visibility _loadImageCommandVisibility = Visibility.Visible;
 
@@ -87,13 +98,6 @@ internal class MainWindowViewModel : ViewModelBase
 
     public BitmapSource? ProcessedBitmapImage => ProcessedImage?.ToBitmapSource();
 
-    private readonly DebounceDispatcher _actionUpdateDebouncer = new DebounceDispatcher();
-
-    private bool _processingImage = false;
-    private bool _shouldProcessImage = false;
-    
-    public event EventHandler<MvvmMessageBoxEventArgs>? DeleteActionDialogRequest;
-
     private string _sidePanelFooterMessage = "";
 
     public string SidePanelFooterMessage
@@ -101,6 +105,26 @@ internal class MainWindowViewModel : ViewModelBase
         get => _sidePanelFooterMessage;
         private set => SetProperty(ref _sidePanelFooterMessage, value);
     }
+
+    private string _imagePanelFooterRightMessage = "";
+
+    public string ImagePanelFooterRightMessage
+    {
+        get => _imagePanelFooterRightMessage;
+        private set => SetProperty(ref _imagePanelFooterRightMessage, value);
+    }
+
+    #endregion
+
+
+    private readonly DebounceDispatcher _actionUpdateDebouncer = new();
+
+    private bool _processingImage = false;
+    private bool _shouldProcessImage = false;
+    public event EventHandler<MvvmMessageBoxEventArgs>? MessageBoxRequest;
+    
+    private string saveImagePath = "";
+
 
     public MainWindowViewModel()
     {
@@ -114,6 +138,7 @@ internal class MainWindowViewModel : ViewModelBase
         AddedActions.CollectionChanged += (t, a) => ProcessImageDebounce();
 
         LoadImageCommand = new DelegateCommand(LoadImage);
+        SaveImageCommand = new DelegateCommand<string>(SaveImage);
     }
 
     private void TogglePopup(bool open)
@@ -129,14 +154,14 @@ internal class MainWindowViewModel : ViewModelBase
 
         AddedActions.Add(action);
         action.PropertyChanged += (_, _) => OnUpdateAction();
-        
+
         SidePanelFooterMessage = "追加しました";
     }
 
     private void OnUpdateAction()
     {
         NotifyPropertyChanged(nameof(AddedActions));
-        
+
         SidePanelFooterMessage = "";
         ProcessImageDebounce();
     }
@@ -149,7 +174,7 @@ internal class MainWindowViewModel : ViewModelBase
             return;
         }
 
-        DeleteActionDialogRequest?.Invoke(this, new MvvmMessageBoxEventArgs(result =>
+        MessageBoxRequest?.Invoke(this, new MvvmMessageBoxEventArgs(result =>
             {
                 if (result == MessageBoxResult.No)
                 {
@@ -159,24 +184,84 @@ internal class MainWindowViewModel : ViewModelBase
 
                 AddedActions.Remove(SelectedAction);
                 SidePanelFooterMessage = "削除しました";
-            }, $"本当に「{SelectedAction.FormatedString}」を削除しますか?", "削除", MessageBoxButton.YesNo, MessageBoxImage.Question));
+            }, $"本当に「{SelectedAction.FormatedString}」を削除しますか?", "削除", MessageBoxButton.YesNo,
+            MessageBoxImage.Question));
     }
 
     private void LoadImage()
     {
-        var op = new OpenFileDialog
+        var dialog = new OpenFileDialog
         {
-            Title = "Select a picture",
-            Filter = "All supported graphics|*.jpg;*.jpeg;*.png|" +
-                     "JPEG (*.jpg;*.jpeg)|*.jpg;*.jpeg|" +
-                     "Portable Network Graphic (*.png)|*.png"
+            Title = "画像を選択してください",
+            Filter = "Image Files|*.bmp;*.jpg;*.jpeg;*.png;*.tif|All Files|*.*"
         };
-        if (op.ShowDialog() != true) return;
+        if (dialog.ShowDialog() != true)
+        {
+            ImagePanelFooterRightMessage = "キャンセルしました";
+            return;
+        }
 
-        OriginalImage = new MagickImage(op.FileName);
+        try
+        {
+            OriginalImage = new MagickImage(dialog.FileName);
+        }
+        catch (Exception e)
+        {
+            MessageBoxRequest?.Invoke(this, new MvvmMessageBoxEventArgs(
+                null,
+                $"ファイルの読み込みに失敗しました\n{e.Message}",
+                icon: MessageBoxImage.Error
+            ));
+            ImagePanelFooterRightMessage = "画像読み込み失敗";
+            return;
+        }
+        
+        ImagePanelFooterRightMessage = "読み込みました";
+        
         ProcessImageDebounce();
-
         LoadImageCommandVisibility = Visibility.Hidden;
+    }
+
+    private void SaveImage(string type)
+    {
+        if (ProcessedImage == null)
+        {
+            ImagePanelFooterRightMessage = "保存する画像がありません";
+            return;
+        }
+
+        if (type == "New" || saveImagePath == "" || !Directory.Exists(Path.GetDirectoryName(saveImagePath)))
+        {
+            var dialog = new SaveFileDialog
+            {
+                Title = "画像を選択してください",
+                Filter = "Image Files|*.bmp;*.jpg;*.jpeg;*.png;*.tif|All Files|*.*"
+            };
+            if (dialog.ShowDialog() != true)
+            {
+                ImagePanelFooterRightMessage = "キャンセルしました";
+                return;
+            }
+            
+            saveImagePath = dialog.FileName;
+        }
+
+        try
+        {
+            ProcessedImage.Write(saveImagePath);
+        }
+        catch (Exception e)
+        {
+            MessageBoxRequest?.Invoke(this, new MvvmMessageBoxEventArgs(
+                null,
+                $"ファイルの保存に失敗しました\n{e.Message}",
+                icon: MessageBoxImage.Error
+            ));
+            ImagePanelFooterRightMessage = "画像保存失敗";
+            return;
+        }
+        
+        ImagePanelFooterRightMessage = "保存しました";
     }
 
     private async void ProcessImage()
@@ -190,6 +275,7 @@ internal class MainWindowViewModel : ViewModelBase
         }
 
         _processingImage = true;
+        ImagePanelFooterRightMessage = "処理中...";
 
         await Task.Run(() =>
         {
@@ -203,7 +289,8 @@ internal class MainWindowViewModel : ViewModelBase
         });
 
         _processingImage = false;
-        
+        ImagePanelFooterRightMessage = "処理完了";
+
         if (_shouldProcessImage)
         {
             _shouldProcessImage = false;

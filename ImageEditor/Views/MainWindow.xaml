@@ -18,14 +18,38 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="18" />
             <RowDefinition Height="*" />
             <RowDefinition Height="25" />
         </Grid.RowDefinitions>
         
-        <components:SidePanel Grid.Row="0" Grid.Column="0" />
+        <DockPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="ファイル">
+                    <MenuItem Header="画像を読み込む"
+                              Command="{Binding LoadImageCommand}"/>
+                    <MenuItem Header="画像を名前を付けて保存する"
+                              Command="{Binding SaveImageCommand}"
+                              CommandParameter="New"/>
+                    <MenuItem Header="画像を上書き保存する"
+                              Command="{Binding SaveImageCommand}"
+                              CommandParameter="Override"/>
+                    <Separator></Separator>
+                    <MenuItem Header="操作を読み込む"/>
+                    <MenuItem Header="操作を保存する"/>
+                </MenuItem>
+                <MenuItem Header="ツール"/>
+            </Menu>
+            <StackPanel>
+            </StackPanel>
+        </DockPanel>
         
-        <components:ImagePanel Grid.Row="0" Grid.Column="1" />
+        <components:SidePanel Grid.Row="1" Grid.Column="0" />
         
-        <components:SidePanelFooter Grid.Row="1" Grid.Column="0" />
+        <components:ImagePanel Grid.Row="1" Grid.Column="1" />
+        
+        <components:SidePanelFooter Grid.Row="2" Grid.Column="0" />
+        
+        <components:ImagePanelFooter Grid.Row="2" Grid.Column="1" />
     </Grid>
 </Window>

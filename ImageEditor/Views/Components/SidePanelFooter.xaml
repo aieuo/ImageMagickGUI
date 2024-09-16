@@ -9,6 +9,6 @@
              d:DataContext="{d:DesignInstance vm:MainWindowViewModel}">
     <Grid>
         <TextBlock Margin="10,0" 
-                Text="{Binding SidePanelFooterMessage}"></TextBlock>
+                Text="{Binding SidePanelFooterMessage}" />
     </Grid>
 </UserControl>

@@ -24,11 +24,11 @@ namespace ImageEditor.Views
             
             if (DataContext is MainWindowViewModel viewModel)
             {
-                viewModel.DeleteActionDialogRequest += ShowConfirmDeleteDialog;
+                viewModel.MessageBoxRequest += HandleMessageBoxRequest;
             }
         }
         
-        private void ShowConfirmDeleteDialog(object? sender, MvvmMessageBoxEventArgs args)
+        private void HandleMessageBoxRequest(object? sender, MvvmMessageBoxEventArgs args)
         {
             args.Show();
         }
