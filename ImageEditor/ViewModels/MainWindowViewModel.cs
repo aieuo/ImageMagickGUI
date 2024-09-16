@@ -94,6 +94,14 @@ internal class MainWindowViewModel : ViewModelBase
     
     public event EventHandler<MvvmMessageBoxEventArgs>? DeleteActionDialogRequest;
 
+    private string _sidePanelFooterMessage = "test";
+
+    public string SidePanelFooterMessage
+    {
+        get => _sidePanelFooterMessage;
+        private set => SetProperty(ref _sidePanelFooterMessage, value);
+    }
+
     public MainWindowViewModel()
     {
         TogglePopupCommand = new DelegateCommand<bool>(TogglePopup);
@@ -101,9 +109,9 @@ internal class MainWindowViewModel : ViewModelBase
         Actions = ActionFactory.GetInstance().All();
         AddActionCommand = new DelegateCommand<string>(AddAction);
         DeleteActionCommand = new DelegateCommand(DeleteAction);
-        
+
         AddedActions = [];
-        AddedActions.CollectionChanged += OnUpdateAction;
+        AddedActions.CollectionChanged += (t, a) => ProcessImageDebounce();
 
         LoadImageCommand = new DelegateCommand(LoadImage);
     }
@@ -120,17 +128,24 @@ internal class MainWindowViewModel : ViewModelBase
         var action = ActionFactory.GetInstance().Get(name);
 
         AddedActions.Add(action);
-        action.PropertyChanged += (_, _) =>
-        {
-            OnUpdateAction();
-            NotifyPropertyChanged(nameof(AddedActions));
-        };
+        action.PropertyChanged += (_, _) => OnUpdateAction();
+        
+        SidePanelFooterMessage = "追加しました";
+    }
+
+    private void OnUpdateAction()
+    {
+        NotifyPropertyChanged(nameof(AddedActions));
+        
+        SidePanelFooterMessage = "";
+        ProcessImageDebounce();
     }
 
     private void DeleteAction()
     {
         if (SelectedAction == null)
         {
+            SidePanelFooterMessage = "削除する対象が選択されていません";
             return;
         }
 
@@ -138,10 +153,12 @@ internal class MainWindowViewModel : ViewModelBase
             {
                 if (result == MessageBoxResult.No)
                 {
+                    SidePanelFooterMessage = "キャンセルしました";
                     return;
                 }
 
                 AddedActions.Remove(SelectedAction);
+                SidePanelFooterMessage = "削除しました";
             }, $"本当に「{SelectedAction.FormatedString}」を削除しますか?", "削除", MessageBoxButton.YesNo, MessageBoxImage.Question));
     }
 
@@ -157,8 +174,8 @@ internal class MainWindowViewModel : ViewModelBase
         if (op.ShowDialog() != true) return;
 
         OriginalImage = new MagickImage(op.FileName);
-        OnUpdateAction();
-        
+        ProcessImageDebounce();
+
         LoadImageCommandVisibility = Visibility.Hidden;
     }
 
@@ -174,7 +191,7 @@ internal class MainWindowViewModel : ViewModelBase
 
         _processingImage = true;
         Console.WriteLine("ProcessImage");
-        
+
         await Task.Run(() =>
         {
             var tmp = (MagickImage)OriginalImage.Clone();
@@ -189,18 +206,17 @@ internal class MainWindowViewModel : ViewModelBase
             ProcessedImage = tmp;
             Console.WriteLine("FinishProcessImage");
         });
-        
+
         _processingImage = false;
         if (_shouldProcessImage)
         {
             _shouldProcessImage = false;
-            OnUpdateAction();
+            ProcessImageDebounce();
         }
     }
 
-    private void OnUpdateAction(object? sender = null, NotifyCollectionChangedEventArgs? args = null)
+    private void ProcessImageDebounce()
     {
-        Console.WriteLine("OnUpdateAction");
         _actionUpdateDebouncer.Debounce(ProcessImage);
     }
 }

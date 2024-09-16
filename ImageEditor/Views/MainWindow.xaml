@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:ImageEditor"
         xmlns:vm="clr-namespace:ImageEditor.ViewModels"
         xmlns:utils="clr-namespace:ImageEditor.Utils"
+        xmlns:components="clr-namespace:ImageEditor.Views.Components"
         xmlns:params="clr-namespace:ImageEditor.Models.Actions.Parameters"
         xmlns:zp="https://github.com/Moravuscz/WPFZoomPanel"
         xmlns:cpl="clr-namespace:ColorPickerLib.Controls;assembly=ColorPickerLib"
@@ -263,5 +264,7 @@
                 </Grid>
             </Border>
         </Grid>
+        
+        <components:SidePanelFooter Grid.Row="1" Grid.Column="0" />
     </Grid>
 </Window>
