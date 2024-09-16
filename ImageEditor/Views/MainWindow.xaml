@@ -35,8 +35,14 @@
                               Command="{Binding SaveImageCommand}"
                               CommandParameter="Override"/>
                     <Separator></Separator>
-                    <MenuItem Header="操作を読み込む"/>
-                    <MenuItem Header="操作を保存する"/>
+                    <MenuItem Header="操作を読み込む"
+                              Command="{Binding LoadActionsCommand}"/>
+                    <MenuItem Header="操作を名前を付けて保存する"
+                              Command="{Binding SaveActionsCommand}"
+                              CommandParameter="New"/>
+                    <MenuItem Header="操作を上書き保存する"
+                              Command="{Binding SaveActionsCommand}"
+                              CommandParameter="Override"/>
                 </MenuItem>
                 <MenuItem Header="ツール"/>
             </Menu>

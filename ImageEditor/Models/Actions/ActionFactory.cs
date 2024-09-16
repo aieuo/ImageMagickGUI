@@ -28,12 +28,12 @@ internal class ActionFactory
 
     private void Init()
     {
-        RegisterAction(() => new RotateAction());
-        RegisterAction(() => new FlipAction());
-        RegisterAction(() => new TrimAction());
+        Register(() => new RotateAction());
+        Register(() => new FlipAction());
+        Register(() => new TrimAction());
     }
 
-    public void RegisterAction(Func<Action> actionCreator)
+    public void Register(Func<Action> actionCreator)
     {
         var action = actionCreator();
         if (!_actions.TryAdd(action.Name, actionCreator))

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ImageEditor.Models.Actions.Parameters;
 
-public class ActionParameter<T>(string name, string description, T value)
+public abstract class ActionParameter<T>(string name, string description, T value)
     : ActionParameter(name, description)
 {
     private T _value = value;
@@ -24,7 +24,7 @@ public class ActionParameter<T>(string name, string description, T value)
     }
 }
 
-public class ActionParameter(string name, string description) : INotifyPropertyChanged
+public abstract class ActionParameter(string name, string description) : INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -35,4 +35,6 @@ public class ActionParameter(string name, string description) : INotifyPropertyC
 
     public string Name { get; } = name;
     public string Description { get; } = description;
+
+    public abstract override string ToString();
 }

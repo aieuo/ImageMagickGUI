@@ -16,7 +16,7 @@ using ImageMagick;
 
 namespace ImageEditor.Models.Actions;
 
-internal abstract class Action : INotifyPropertyChanged
+public abstract class Action : INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler? PropertyChanged;
 
