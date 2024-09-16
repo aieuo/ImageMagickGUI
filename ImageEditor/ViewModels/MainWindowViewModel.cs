@@ -109,14 +109,6 @@ internal class MainWindowViewModel : ViewModelBase
     private void TogglePopup(bool open)
     {
         IsPopupOpen = open;
-        foreach (var item in AddedActions)
-        {
-            Console.WriteLine(item);
-            foreach (var v in item.Parameters)
-            {
-                Console.WriteLine(v);
-            }
-        }
     }
 
     private void AddAction(string name)
