@@ -123,7 +123,7 @@ internal class MainWindowViewModel : ViewModelBase
     private bool _shouldProcessImage = false;
     public event EventHandler<MvvmMessageBoxEventArgs>? MessageBoxRequest;
     
-    private string saveImagePath = "";
+    private string _saveImagePath = "";
 
 
     public MainWindowViewModel()
@@ -230,7 +230,7 @@ internal class MainWindowViewModel : ViewModelBase
             return;
         }
 
-        if (type == "New" || saveImagePath == "" || !Directory.Exists(Path.GetDirectoryName(saveImagePath)))
+        if (type == "New" || _saveImagePath == "" || !Directory.Exists(Path.GetDirectoryName(_saveImagePath)))
         {
             var dialog = new SaveFileDialog
             {
@@ -243,12 +243,12 @@ internal class MainWindowViewModel : ViewModelBase
                 return;
             }
             
-            saveImagePath = dialog.FileName;
+            _saveImagePath = dialog.FileName;
         }
 
         try
         {
-            ProcessedImage.Write(saveImagePath);
+            ProcessedImage.Write(_saveImagePath);
         }
         catch (Exception e)
         {
