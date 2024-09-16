@@ -187,7 +187,8 @@
             </StackPanel>
 
             <ListBox Grid.Row="1" BorderThickness="2"
-                     ItemsSource="{Binding AddedActions}">
+                     ItemsSource="{Binding AddedActions}"
+                     SelectedItem="{Binding SelectedAction, Mode=OneWayToSource}">
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="{x:Type ListBoxItem}">
                         <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>

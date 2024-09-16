@@ -48,6 +48,21 @@ internal class MainWindowViewModel : ViewModelBase
 
     public ObservableCollection<Action> AddedActions { get; }
 
+    private Action? _selectedAction = null;
+
+    public Action? SelectedAction
+    {
+        get => _selectedAction;
+        set
+        {
+            if (_selectedAction != value)
+            {
+                _selectedAction = value;
+                NotifyPropertyChanged();
+            }
+        }
+    }
+
     public ICommand LoadImageCommand { get; private set; }
 
     private Visibility _loadImageCommandVisibility = Visibility.Visible;
@@ -149,7 +164,20 @@ internal class MainWindowViewModel : ViewModelBase
 
     private void DeleteAction()
     {
-        ProcessImage();
+        if (SelectedAction == null)
+        {
+            return;
+        }
+
+        DeleteActionDialogRequest?.Invoke(this, new MvvmMessageBoxEventArgs(result =>
+            {
+                if (result == MessageBoxResult.No)
+                {
+                    return;
+                }
+
+                AddedActions.Remove(SelectedAction);
+            }, $"本当に「{SelectedAction.FormatedString}」を削除しますか?", "削除", MessageBoxButton.YesNo, MessageBoxImage.Question));
     }
 
     private void LoadImage()

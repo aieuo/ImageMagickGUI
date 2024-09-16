@@ -8,6 +8,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ImageEditor.Utils;
+using ImageEditor.ViewModels;
 
 namespace ImageEditor.Views
 {
@@ -19,6 +21,16 @@ namespace ImageEditor.Views
         public MainWindow()
         {
             InitializeComponent();
+            
+            if (DataContext is MainWindowViewModel viewModel)
+            {
+                viewModel.DeleteActionDialogRequest += ShowConfirmDeleteDialog;
+            }
+        }
+        
+        private void ShowConfirmDeleteDialog(object? sender, MvvmMessageBoxEventArgs args)
+        {
+            args.Show();
         }
     }
 }
