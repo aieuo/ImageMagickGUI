@@ -31,7 +31,7 @@ internal class FlipAction : Action
     public override string FormatedString =>
         _allOptions.GetValueOrDefault(GetParameter<EnumParameter<FlipType>>("type").Value) ?? "?";
 
-    public override string IconPath => "../Resources/flip.png";
+    public override string IconPath => "../../Resources/flip.png";
 
     internal FlipAction(FlipType type = FlipType.Flip)
     {

@@ -9,6 +9,7 @@ using System.Reflection.Metadata;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 using System.Xml;
 using System.Xml.Schema;
 using ImageMagick;
@@ -32,7 +33,7 @@ internal abstract class Action : INotifyPropertyChanged
     public abstract string FormatedString { get; }
 
     /// <summary>
-    /// /Views/MainWindow.xaml からの相対パス
+    /// /Views/Components/SidePanel.xaml からの相対パス
     /// </summary>
     public abstract string IconPath { get; }
 

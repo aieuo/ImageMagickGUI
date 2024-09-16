@@ -16,7 +16,7 @@ internal class TrimAction : Action
 
     public override string FormatedString => "画像の余白を削除する";
 
-    public override string IconPath => "../Resources/rotation.png";
+    public override string IconPath => "../../Resources/rotation.png";
 
     internal TrimAction(float fuzz = 0)
     {

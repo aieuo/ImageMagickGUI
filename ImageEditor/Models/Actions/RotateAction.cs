@@ -17,7 +17,7 @@ internal class RotateAction : Action
 
     public override string FormatedString => $"{GetParameter<FloatParameter>("angle")}度回転させる";
 
-    public override string IconPath => "../Resources/rotation.png";
+    public override string IconPath => "../../Resources/rotation.png";
 
     internal RotateAction(float angle = 0) : this(angle, Colors.Transparent)
     {
