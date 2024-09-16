@@ -91,6 +91,8 @@ internal class MainWindowViewModel : ViewModelBase
 
     private bool _processingImage = false;
     private bool _shouldProcessImage = false;
+    
+    public event EventHandler<MvvmMessageBoxEventArgs>? DeleteActionDialogRequest;
 
     public MainWindowViewModel()
     {
