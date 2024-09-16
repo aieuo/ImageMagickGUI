@@ -7,7 +7,8 @@
         xmlns:vm="clr-namespace:ImageEditor.ViewModels"
         xmlns:utils="clr-namespace:ImageEditor.Utils"
         xmlns:params="clr-namespace:ImageEditor.Models.Actions.Parameters"
-        xmlns:WPFZoomPanel="https://github.com/Moravuscz/WPFZoomPanel"
+        xmlns:zp="https://github.com/Moravuscz/WPFZoomPanel"
+        xmlns:cpl="clr-namespace:ColorPickerLib.Controls;assembly=ColorPickerLib"
         mc:Ignorable="d"
         Title="ImageEditor" Height="720" Width="1280">
 
@@ -37,48 +38,73 @@
 
         <DataTemplate x:Key="FloatParamTemplate"
                       DataType="{x:Type params:FloatParameter}">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="40" />
-                    <ColumnDefinition Width="25" />
-                </Grid.ColumnDefinitions>
+            <StackPanel>
+                <TextBlock Text="{Binding Description}" Margin="0,0,0,2" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="40" />
+                        <ColumnDefinition Width="25" />
+                    </Grid.ColumnDefinitions>
 
-                <Slider Grid.Column="0"
-                        Minimum="{Binding MinValue}"
-                        Maximum="{Binding MaxValue}"
-                        Value="{Binding Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                        TickFrequency="1"
-                        IsSnapToTickEnabled="True"
-                        IsMoveToPointEnabled="True"
-                        HorizontalAlignment="Stretch" />
+                    <Slider Grid.Column="0"
+                            Minimum="{Binding MinValue}"
+                            Maximum="{Binding MaxValue}"
+                            Value="{Binding Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            TickFrequency="1"
+                            IsSnapToTickEnabled="True"
+                            IsMoveToPointEnabled="True"
+                            HorizontalAlignment="Stretch" />
 
-                <TextBox Grid.Column="1"
-                         Margin="5,0,0,0"
-                         HorizontalAlignment="Stretch"
-                         Text="{Binding Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
-            </Grid>
+                    <TextBox Grid.Column="1"
+                             Margin="5,0,0,0"
+                             HorizontalAlignment="Stretch"
+                             Text="{Binding Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                </Grid>
+            </StackPanel>
         </DataTemplate>
 
         <DataTemplate x:Key="EnumParamTemplate"
                       DataType="{x:Type params:EnumParameter}">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
+            <StackPanel>
+                <TextBlock Text="{Binding Description}" Margin="0,0,0,2" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
 
-                <ComboBox Grid.Column="0"
-                          ItemsSource="{Binding Options}"
-                          SelectedValue="{Binding Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                          SelectedValuePath="Key" DisplayMemberPath="Value"
-                          HorizontalAlignment="Stretch" />
-            </Grid>
+                    <ComboBox Grid.Column="0"
+                              ItemsSource="{Binding Options}"
+                              SelectedValue="{Binding Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                              SelectedValuePath="Key" DisplayMemberPath="Value"
+                              HorizontalAlignment="Stretch" />
+                </Grid>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="ColorParamTemplate"
+                      DataType="{x:Type params:ColorParameter}">
+            <StackPanel>
+                <TextBlock Text="{Binding Description}" Margin="0,0,0,2" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    
+                    <Border BorderThickness="1" BorderBrush="Black">
+                        <cpl:ColorPicker SelectedColor="{Binding Value}"
+                                         Background="White"
+                                         Resources="{StaticResource ColorPickerLib}"/>
+                    </Border>
+                </Grid>
+            </StackPanel>
         </DataTemplate>
 
         <utils:InputTemplateSelector
             x:Key="InputTemplateSelector"
             FloatParamTemplate="{StaticResource FloatParamTemplate}"
-            EnumParamTemplate="{StaticResource EnumParamTemplate}" />
+            EnumParamTemplate="{StaticResource EnumParamTemplate}"
+            ColorParamTemplate="{StaticResource ColorParamTemplate}" />
     </Window.Resources>
 
     <Grid>
@@ -107,8 +133,7 @@
                     <Image Source="../Resources/plus.png" />
                 </Button>
 
-                <Popup Name="SelectActionPopup"
-                       PlacementTarget="{Binding ElementName=ButtonGroup}" Placement="Bottom"
+                <Popup PlacementTarget="{Binding ElementName=ButtonGroup}" Placement="Bottom"
                        HorizontalOffset="-35" VerticalOffset="-2"
                        IsOpen="{Binding IsPopupOpen}"
                        AllowsTransparency="True" StaysOpen="False"
@@ -162,18 +187,37 @@
             </StackPanel>
 
             <ListBox Grid.Row="1" BorderThickness="2"
-                     ItemsSource="{Binding AddedActions}"
-                     ItemContainerStyle="{StaticResource NoHoverEffect}">
+                     ItemsSource="{Binding AddedActions}">
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="{x:Type ListBoxItem}">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                    </Style>
+                </ListBox.ItemContainerStyle>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Expander Header="{Binding FormatedString}" Padding="5">
-                            <ListBox ItemsSource="{Binding Parameters}"
-                                     ItemTemplateSelector="{StaticResource InputTemplateSelector}"
-                                     ItemContainerStyle="{StaticResource NoHoverEffect}"
-                                     BorderThickness="0"
-                                     HorizontalAlignment="Stretch">
-                            </ListBox>
-                        </Expander>
+                        <Grid>
+                            <Expander>
+                                <ListBox ItemsSource="{Binding Parameters}"
+                                         ItemTemplateSelector="{StaticResource InputTemplateSelector}"
+                                         ItemContainerStyle="{StaticResource NoHoverEffect}"
+                                         Margin="-5,5,-5,-2"
+                                         Padding="7,2,7,4"
+                                         BorderThickness="0"
+                                         HorizontalAlignment="Stretch">
+                                </ListBox>
+                            </Expander>
+                            <TextBlock Text="{Binding FormatedString}">
+                                <TextBlock.Style>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Setter Property="Height" Value="25" />
+                                        <Setter Property="Margin" Value="21,0,0,0" />
+                                        <Setter Property="Padding" Value="9,3,0,0" />
+                                        <Setter Property="HorizontalAlignment" Value="Stretch" />
+                                        <Setter Property="VerticalAlignment" Value="Top" />
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
@@ -194,23 +238,21 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
-                    <WPFZoomPanel:ZoomPanelScrollViewer Grid.Column="0"
-                                                        HorizontalScrollBarVisibility="Hidden"
-                                                        VerticalScrollBarVisibility="Hidden"
-                                                        ZoomAndPanInitialPosition="FitScreen"
-                                                        ViewportZoom="{Binding OriginalImageZoom, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
-                        <Image Margin="300" 
+                    <zp:ZoomPanelScrollViewer Grid.Column="0"
+                                              HorizontalScrollBarVisibility="Hidden"
+                                              VerticalScrollBarVisibility="Hidden"
+                                              ZoomAndPanInitialPosition="FitScreen">
+                        <Image Margin="300"
                                Source="{Binding OriginalBitmapImage}" />
-                    </WPFZoomPanel:ZoomPanelScrollViewer>
-                    
-                    <WPFZoomPanel:ZoomPanelScrollViewer Grid.Column="1"
-                                                        HorizontalScrollBarVisibility="Hidden"
-                                                        VerticalScrollBarVisibility="Hidden"
-                                                        ZoomAndPanInitialPosition="FitScreen"
-                                                        ViewportZoom="{Binding ProcessedImageZoom, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
-                        <Image Margin="300" 
+                    </zp:ZoomPanelScrollViewer>
+
+                    <zp:ZoomPanelScrollViewer Grid.Column="1"
+                                              HorizontalScrollBarVisibility="Hidden"
+                                              VerticalScrollBarVisibility="Hidden"
+                                              ZoomAndPanInitialPosition="FitScreen">
+                        <Image Margin="300"
                                Source="{Binding ProcessedBitmapImage}" />
-                    </WPFZoomPanel:ZoomPanelScrollViewer>
+                    </zp:ZoomPanelScrollViewer>
 
                     <Button Grid.Column="0" Grid.ColumnSpan="2"
                             Command="{Binding LoadImageCommand}"

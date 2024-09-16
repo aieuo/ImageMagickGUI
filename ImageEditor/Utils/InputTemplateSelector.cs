@@ -14,6 +14,7 @@ namespace ImageEditor.Utils
     {
         public DataTemplate FloatParamTemplate { get; set; }
         public DataTemplate EnumParamTemplate { get; set; }
+        public DataTemplate ColorParamTemplate { get; set; }
 
         public override DataTemplate SelectTemplate(object? item, DependencyObject container)
         {
@@ -21,6 +22,7 @@ namespace ImageEditor.Utils
             {
                 FloatParameter => FloatParamTemplate,
                 EnumParameter => EnumParamTemplate,
+                ColorParameter => ColorParamTemplate,
                 _ => base.SelectTemplate(item, container)
             };
         }

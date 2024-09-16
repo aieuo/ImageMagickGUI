@@ -7,5 +7,11 @@
     <Application.Resources>
         <s:Boolean x:Key="True">True</s:Boolean>
         <s:Boolean x:Key="False">False</s:Boolean>
+        
+        <ResourceDictionary x:Key="ColorPickerLib">
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/ColorPickerLib;component/Themes/LightBrushs.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

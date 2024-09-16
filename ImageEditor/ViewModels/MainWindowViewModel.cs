@@ -3,6 +3,7 @@ using ImageEditor.Models.Actions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -13,8 +14,10 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using ImageEditor.Models.Actions.Parameters;
+using ImageEditor.Utils;
 using ImageMagick;
 using Microsoft.Win32;
+using ObservableCollections;
 using Action = ImageEditor.Models.Actions.Action;
 
 namespace ImageEditor.ViewModels;
@@ -97,46 +100,22 @@ internal class MainWindowViewModel : ViewModelBase
     }
 
     public BitmapSource? ProcessedBitmapImage => ProcessedImage?.ToBitmapSource();
-    
 
-    private double _originalImageZoom = 1;
+    private readonly DebounceDispatcher _actionUpdateDebouncer = new DebounceDispatcher();
 
-    public double OriginalImageZoom
-    {
-        get => _originalImageZoom;
-        set
-        {
-            if (_originalImageZoom != value)
-            {
-                _originalImageZoom = value;
-                NotifyPropertyChanged();
-            }
-        }
-    }
-
-    private double _processedImageZoom = 1;
-
-    public double ProcessedImageZoom
-    {
-        get => _processedImageZoom;
-        set
-        {
-            if (_processedImageZoom != value)
-            {
-                _processedImageZoom = value;
-                NotifyPropertyChanged();
-            }
-        }
-    }
+    private bool _processingImage = false;
+    private bool _shouldProcessImage = false;
 
     public MainWindowViewModel()
     {
         TogglePopupCommand = new DelegateCommand<bool>(TogglePopup);
 
         Actions = ActionFactory.GetInstance().All();
-        AddedActions = [];
         AddActionCommand = new DelegateCommand<string>(AddAction);
         DeleteActionCommand = new DelegateCommand(DeleteAction);
+        
+        AddedActions = [];
+        AddedActions.CollectionChanged += OnUpdateAction;
 
         LoadImageCommand = new DelegateCommand(LoadImage);
     }
@@ -161,25 +140,16 @@ internal class MainWindowViewModel : ViewModelBase
         var action = ActionFactory.GetInstance().Get(name);
 
         AddedActions.Add(action);
-        action.PropertyChanged += (_, _) => NotifyPropertyChanged(nameof(AddedActions));
+        action.PropertyChanged += (_, _) =>
+        {
+            OnUpdateAction();
+            NotifyPropertyChanged(nameof(AddedActions));
+        };
     }
 
     private void DeleteAction()
     {
         ProcessImage();
-    }
-
-    private void ProcessImage()
-    {
-        if (OriginalImage == null) return;
-
-        var tmp = (MagickImage) OriginalImage.Clone();
-        foreach (var action in AddedActions)
-        {
-            action.ProcessImage(tmp);
-        }
-
-        ProcessedImage = tmp;
     }
 
     private void LoadImage()
@@ -192,8 +162,52 @@ internal class MainWindowViewModel : ViewModelBase
                      "Portable Network Graphic (*.png)|*.png"
         };
         if (op.ShowDialog() != true) return;
-            
+
         OriginalImage = new MagickImage(op.FileName);
+        OnUpdateAction();
+        
         LoadImageCommandVisibility = Visibility.Hidden;
+    }
+
+    private async void ProcessImage()
+    {
+        if (OriginalImage == null) return;
+
+        if (_processingImage)
+        {
+            _shouldProcessImage = true;
+            return;
+        }
+
+        _processingImage = true;
+        Console.WriteLine("ProcessImage");
+        
+        await Task.Run(() =>
+        {
+            var tmp = (MagickImage)OriginalImage.Clone();
+            foreach (var action in AddedActions.ToList())
+            {
+                var start = DateTime.Now;
+                action.ProcessImage(tmp);
+                Console.Write($"{action}: ");
+                Console.WriteLine((DateTime.Now - start).TotalMilliseconds);
+            }
+
+            ProcessedImage = tmp;
+            Console.WriteLine("FinishProcessImage");
+        });
+        
+        _processingImage = false;
+        if (_shouldProcessImage)
+        {
+            _shouldProcessImage = false;
+            OnUpdateAction();
+        }
+    }
+
+    private void OnUpdateAction(object? sender = null, NotifyCollectionChangedEventArgs? args = null)
+    {
+        Console.WriteLine("OnUpdateAction");
+        _actionUpdateDebouncer.Debounce(ProcessImage);
     }
 }
