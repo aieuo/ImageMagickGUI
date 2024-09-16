@@ -31,14 +31,7 @@ internal class MainWindowViewModel : ViewModelBase
     public bool IsPopupOpen
     {
         get => _isPopupOpen;
-        set
-        {
-            if (_isPopupOpen != value)
-            {
-                _isPopupOpen = value;
-                NotifyPropertyChanged();
-            }
-        }
+        set => SetProperty(ref _isPopupOpen, value);
     }
 
     public List<Action> Actions { get; }
@@ -53,14 +46,7 @@ internal class MainWindowViewModel : ViewModelBase
     public Action? SelectedAction
     {
         get => _selectedAction;
-        set
-        {
-            if (_selectedAction != value)
-            {
-                _selectedAction = value;
-                NotifyPropertyChanged();
-            }
-        }
+        set => SetProperty(ref _selectedAction, value);
     }
 
     public ICommand LoadImageCommand { get; private set; }
@@ -70,14 +56,7 @@ internal class MainWindowViewModel : ViewModelBase
     public Visibility LoadImageCommandVisibility
     {
         get => _loadImageCommandVisibility;
-        set
-        {
-            if (_loadImageCommandVisibility != value)
-            {
-                _loadImageCommandVisibility = value;
-                NotifyPropertyChanged();
-            }
-        }
+        set => SetProperty(ref _loadImageCommandVisibility, value);
     }
 
     private MagickImage? _originalImage = null;
@@ -87,12 +66,8 @@ internal class MainWindowViewModel : ViewModelBase
         get => _originalImage;
         set
         {
-            if (_originalImage != value)
-            {
-                _originalImage = value;
-                NotifyPropertyChanged();
-                NotifyPropertyChanged(nameof(OriginalBitmapImage));
-            }
+            SetProperty(ref _originalImage, value);
+            NotifyPropertyChanged(nameof(OriginalBitmapImage));
         }
     }
 
@@ -105,12 +80,8 @@ internal class MainWindowViewModel : ViewModelBase
         get => _processedImage;
         set
         {
-            if (_processedImage != value)
-            {
-                _processedImage = value;
-                NotifyPropertyChanged();
-                NotifyPropertyChanged(nameof(ProcessedBitmapImage));
-            }
+            SetProperty(ref _processedImage, value);
+            NotifyPropertyChanged(nameof(ProcessedBitmapImage));
         }
     }
 
