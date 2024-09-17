@@ -125,6 +125,9 @@ internal class MainWindowViewModel : ViewModelBase
         private set => SetProperty(ref _imagePanelFooterRightMessage, value);
     }
 
+    public ImageDragDropHandler ImageDragDropHandler { get; private set; }
+    public ActionDragDropHandler ActionDragDropHandler { get; private set; }
+
     #endregion
 
 
@@ -155,6 +158,9 @@ internal class MainWindowViewModel : ViewModelBase
         SaveActionsCommand = new DelegateCommand<string>(SaveActions);
         
         SaveAllCommand = new DelegateCommand(SaveAll);
+
+        ImageDragDropHandler = new ImageDragDropHandler(TryLoadImage);
+        ActionDragDropHandler = new ActionDragDropHandler(TryLoadAction);
     }
 
     private void TogglePopup(bool open)
@@ -217,9 +223,14 @@ internal class MainWindowViewModel : ViewModelBase
             return;
         }
 
+        TryLoadImage(dialog.FileName);
+    }
+
+    private void TryLoadImage(string path)
+    {
         try
         {
-            OriginalImage = new MagickImage(dialog.FileName);
+            OriginalImage = new MagickImage(path);
         }
         catch (Exception e)
         {
@@ -231,9 +242,9 @@ internal class MainWindowViewModel : ViewModelBase
             ImagePanelFooterRightMessage = "画像読み込み失敗";
             return;
         }
-        
+
         ImagePanelFooterRightMessage = "読み込みました";
-        
+
         ProcessImageDebounce();
         LoadImageCommandVisibility = Visibility.Hidden;
     }
@@ -258,7 +269,7 @@ internal class MainWindowViewModel : ViewModelBase
                 ImagePanelFooterRightMessage = "キャンセルしました";
                 return;
             }
-            
+
             _saveImagePath = dialog.FileName;
         }
 
@@ -276,7 +287,7 @@ internal class MainWindowViewModel : ViewModelBase
             ImagePanelFooterRightMessage = "画像保存失敗";
             return;
         }
-        
+
         ImagePanelFooterRightMessage = "保存しました";
     }
 
@@ -332,9 +343,13 @@ internal class MainWindowViewModel : ViewModelBase
             return;
         }
 
+        TryLoadAction(dialog.FileName);
+    }
+
+    private void TryLoadAction(string path)
+    {
         try
         {
-            var json = File.ReadAllText(dialog.FileName);
             AddedActions.Clear();
             foreach (var action in ActionDeserializer.GetInstance().Deserialize(json))
             {
@@ -352,7 +367,7 @@ internal class MainWindowViewModel : ViewModelBase
             SidePanelFooterMessage = "読み込み失敗";
             return;
         }
-        
+
         SidePanelFooterMessage = "読み込みました";
     }
 
@@ -370,11 +385,10 @@ internal class MainWindowViewModel : ViewModelBase
                 SidePanelFooterMessage = "キャンセルしました";
                 return;
             }
-            
+
             _saveActionPath = dialog.FileName;
         }
 
-        
         try
         {
             var json = ActionSerializer.GetInstance().Serialize(AddedActions);
@@ -390,7 +404,7 @@ internal class MainWindowViewModel : ViewModelBase
             SidePanelFooterMessage = "保存失敗";
             return;
         }
-        
+
         SidePanelFooterMessage = "保存しました";
     }
 
