@@ -1,9 +1,8 @@
-using System.Text.Json;
 using ImageEditor.Models.Actions.Parameters;
 using Newtonsoft.Json;
 using Action = ImageEditor.Models.Actions.Action;
 
-namespace ImageEditor.Utils.Serializer;
+namespace ImageEditor.Models.Serializer;
 
 public class ActionSerializer
 {

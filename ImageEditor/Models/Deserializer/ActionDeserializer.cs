@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Action = ImageEditor.Models.Actions.Action;
 
-namespace ImageEditor.Utils.Deserializer;
+namespace ImageEditor.Models.Deserializer;
 
 public class ActionDeserializer
 {
