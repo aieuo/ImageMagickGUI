@@ -46,6 +46,7 @@ internal class MainWindowViewModel : ViewModelBase
     public ICommand LoadActionsCommand { get; private set; }
 
     public ICommand SaveActionsCommand { get; private set; }
+    public ICommand SaveAllCommand { get; private set; }
 
     #endregion
 
@@ -152,6 +153,8 @@ internal class MainWindowViewModel : ViewModelBase
         
         LoadActionsCommand = new DelegateCommand(LoadActions);
         SaveActionsCommand = new DelegateCommand<string>(SaveActions);
+        
+        SaveAllCommand = new DelegateCommand(SaveAll);
     }
 
     private void TogglePopup(bool open)
@@ -389,5 +392,11 @@ internal class MainWindowViewModel : ViewModelBase
         }
         
         SidePanelFooterMessage = "保存しました";
+    }
+
+    private void SaveAll()
+    {
+        SaveImage("Override");
+        SaveActions("Override");
     }
 }

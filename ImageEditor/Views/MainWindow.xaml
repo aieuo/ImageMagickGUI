@@ -11,6 +11,10 @@
     <Window.DataContext>
         <vm:MainWindowViewModel />
     </Window.DataContext>
+    
+    <Window.InputBindings>
+        <KeyBinding Gesture="Ctrl+S" Command="{Binding SaveAllCommand}"/>
+    </Window.InputBindings>
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -43,6 +47,10 @@
                     <MenuItem Header="操作を上書き保存する"
                               Command="{Binding SaveActionsCommand}"
                               CommandParameter="Override"/>
+                    <Separator></Separator>
+                    <MenuItem Header="全て上書き保存する"
+                              Command="{Binding SaveAllCommand}"
+                              InputGestureText="Ctrl+S"/>
                 </MenuItem>
                 <MenuItem Header="ツール"/>
             </Menu>
