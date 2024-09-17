@@ -11,21 +11,14 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
-using System.Xml;
-using System.Xml.Serialization;
-using ImageEditor.Models.Actions.Parameters;
 using ImageEditor.Utils;
 using ImageEditor.Utils.Deserializer;
 using ImageEditor.Utils.Serializer;
-using ImageEditor.Views.Components;
 using ImageEditor.ViewModels.DragDrop;
 using ImageMagick;
 using Microsoft.Win32;
-using Newtonsoft.Json;
-using ObservableCollections;
 using Action = ImageEditor.Models.Actions.Action;
 
 namespace ImageEditor.ViewModels;
@@ -37,16 +30,14 @@ internal class MainWindowViewModel : ViewModelBase
     public ICommand TogglePopupCommand { get; private set; }
 
     public ICommand AddActionCommand { get; private set; }
-
     public ICommand DeleteActionCommand { get; private set; }
 
     public ICommand LoadImageCommand { get; private set; }
-
     public ICommand SaveImageCommand { get; private set; }
 
     public ICommand LoadActionsCommand { get; private set; }
-
     public ICommand SaveActionsCommand { get; private set; }
+
     public ICommand SaveAllCommand { get; private set; }
 
     #endregion
@@ -137,7 +128,7 @@ internal class MainWindowViewModel : ViewModelBase
     private bool _processingImage = false;
     private bool _shouldProcessImage = false;
     public event EventHandler<MvvmMessageBoxEventArgs>? MessageBoxRequest;
-    
+
     private string _saveImagePath = "";
     private string _saveActionPath = "";
 
@@ -154,10 +145,10 @@ internal class MainWindowViewModel : ViewModelBase
 
         LoadImageCommand = new DelegateCommand(LoadImage);
         SaveImageCommand = new DelegateCommand<string>(SaveImage);
-        
+
         LoadActionsCommand = new DelegateCommand(LoadActions);
         SaveActionsCommand = new DelegateCommand<string>(SaveActions);
-        
+
         SaveAllCommand = new DelegateCommand(SaveAll);
 
         ImageDragDropHandler = new ImageDragDropHandler(TryLoadImage);
@@ -211,6 +202,85 @@ internal class MainWindowViewModel : ViewModelBase
             MessageBoxImage.Question));
     }
 
+    private void LoadActions()
+    {
+        var dialog = new OpenFileDialog
+        {
+            Title = "ファイルを選択してください",
+            Filter = "File|*.json"
+        };
+        if (dialog.ShowDialog() != true)
+        {
+            SidePanelFooterMessage = "キャンセルしました";
+            return;
+        }
+
+        TryLoadAction(dialog.FileName);
+    }
+
+    private void TryLoadAction(string path)
+    {
+        try
+        {
+            var json = File.ReadAllText(path);
+            AddedActions.Clear();
+            foreach (var action in ActionDeserializer.GetInstance().Deserialize(json))
+            {
+                AddedActions.Add(action);
+                action.PropertyChanged += (_, _) => OnUpdateAction();
+            }
+        }
+        catch (Exception e)
+        {
+            MessageBoxRequest?.Invoke(this, new MvvmMessageBoxEventArgs(
+                null,
+                $"ファイルの読み込みに失敗しました\n{e.Message}",
+                icon: MessageBoxImage.Error
+            ));
+            SidePanelFooterMessage = "読み込み失敗";
+            return;
+        }
+
+        SidePanelFooterMessage = "読み込みました";
+    }
+
+    private void SaveActions(string type)
+    {
+        if (type == "New" || _saveActionPath == "" || !Directory.Exists(Path.GetDirectoryName(_saveActionPath)))
+        {
+            var dialog = new SaveFileDialog
+            {
+                Title = "ファイルを選択してください",
+                Filter = "File|*.json"
+            };
+            if (dialog.ShowDialog() != true)
+            {
+                SidePanelFooterMessage = "キャンセルしました";
+                return;
+            }
+
+            _saveActionPath = dialog.FileName;
+        }
+
+        try
+        {
+            var json = ActionSerializer.GetInstance().Serialize(AddedActions);
+            File.WriteAllText(_saveActionPath, json);
+        }
+        catch (Exception e)
+        {
+            MessageBoxRequest?.Invoke(this, new MvvmMessageBoxEventArgs(
+                null,
+                $"ファイルの保存に失敗しました\n{e.Message}",
+                icon: MessageBoxImage.Error
+            ));
+            SidePanelFooterMessage = "保存失敗";
+            return;
+        }
+
+        SidePanelFooterMessage = "保存しました";
+    }
+
     private void LoadImage()
     {
         var dialog = new OpenFileDialog
@@ -232,6 +302,7 @@ internal class MainWindowViewModel : ViewModelBase
         try
         {
             OriginalImage = new MagickImage(path);
+            OriginalImage.ColorSpace = ColorSpace.sRGB;
         }
         catch (Exception e)
         {
@@ -329,85 +400,6 @@ internal class MainWindowViewModel : ViewModelBase
     private void ProcessImageDebounce()
     {
         _actionUpdateDebouncer.Debounce(ProcessImage);
-    }
-
-    private void LoadActions()
-    {
-        var dialog = new OpenFileDialog
-        {
-            Title = "ファイルを選択してください",
-            Filter = "File|*.json"
-        };
-        if (dialog.ShowDialog() != true)
-        {
-            SidePanelFooterMessage = "キャンセルしました";
-            return;
-        }
-
-        TryLoadAction(dialog.FileName);
-    }
-
-    private void TryLoadAction(string path)
-    {
-        try
-        {
-            var json = File.ReadAllText(path);
-            AddedActions.Clear();
-            foreach (var action in ActionDeserializer.GetInstance().Deserialize(json))
-            {
-                AddedActions.Add(action);
-                action.PropertyChanged += (_, _) => OnUpdateAction();
-            }
-        }
-        catch (Exception e)
-        {
-            MessageBoxRequest?.Invoke(this, new MvvmMessageBoxEventArgs(
-                null,
-                $"ファイルの読み込みに失敗しました\n{e.Message}",
-                icon: MessageBoxImage.Error
-            ));
-            SidePanelFooterMessage = "読み込み失敗";
-            return;
-        }
-
-        SidePanelFooterMessage = "読み込みました";
-    }
-
-    private void SaveActions(string type)
-    {
-        if (type == "New" || _saveActionPath == "" || !Directory.Exists(Path.GetDirectoryName(_saveActionPath)))
-        {
-            var dialog = new SaveFileDialog
-            {
-                Title = "ファイルを選択してください",
-                Filter = "File|*.json"
-            };
-            if (dialog.ShowDialog() != true)
-            {
-                SidePanelFooterMessage = "キャンセルしました";
-                return;
-            }
-
-            _saveActionPath = dialog.FileName;
-        }
-
-        try
-        {
-            var json = ActionSerializer.GetInstance().Serialize(AddedActions);
-            File.WriteAllText(_saveActionPath, json);
-        }
-        catch (Exception e)
-        {
-            MessageBoxRequest?.Invoke(this, new MvvmMessageBoxEventArgs(
-                null,
-                $"ファイルの保存に失敗しました\n{e.Message}",
-                icon: MessageBoxImage.Error
-            ));
-            SidePanelFooterMessage = "保存失敗";
-            return;
-        }
-
-        SidePanelFooterMessage = "保存しました";
     }
 
     private void SaveAll()
