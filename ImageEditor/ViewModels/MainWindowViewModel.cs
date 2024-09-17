@@ -332,8 +332,8 @@ internal class MainWindowViewModel : ViewModelBase
             return;
         }
 
-        // try
-        // {
+        try
+        {
             var json = File.ReadAllText(dialog.FileName);
             AddedActions.Clear();
             foreach (var action in ActionDeserializer.GetInstance().Deserialize(json))
@@ -341,17 +341,17 @@ internal class MainWindowViewModel : ViewModelBase
                 AddedActions.Add(action);
                 action.PropertyChanged += (_, _) => OnUpdateAction();
             }
-        // }
-        // catch (Exception e)
-        // {
-        //     MessageBoxRequest?.Invoke(this, new MvvmMessageBoxEventArgs(
-        //         null,
-        //         $"ファイルの読み込みに失敗しました\n{e.Message}",
-        //         icon: MessageBoxImage.Error
-        //     ));
-        //     SidePanelFooterMessage = "読み込み失敗";
-        //     return;
-        // }
+        }
+        catch (Exception e)
+        {
+            MessageBoxRequest?.Invoke(this, new MvvmMessageBoxEventArgs(
+                null,
+                $"ファイルの読み込みに失敗しました\n{e.Message}",
+                icon: MessageBoxImage.Error
+            ));
+            SidePanelFooterMessage = "読み込み失敗";
+            return;
+        }
         
         SidePanelFooterMessage = "読み込みました";
     }
