@@ -21,6 +21,7 @@ using ImageEditor.Utils;
 using ImageEditor.Utils.Deserializer;
 using ImageEditor.Utils.Serializer;
 using ImageEditor.Views.Components;
+using ImageEditor.ViewModels.DragDrop;
 using ImageMagick;
 using Microsoft.Win32;
 using Newtonsoft.Json;
@@ -350,6 +351,7 @@ internal class MainWindowViewModel : ViewModelBase
     {
         try
         {
+            var json = File.ReadAllText(path);
             AddedActions.Clear();
             foreach (var action in ActionDeserializer.GetInstance().Deserialize(json))
             {
