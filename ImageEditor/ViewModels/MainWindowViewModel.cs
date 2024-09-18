@@ -14,6 +14,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using ImageEditor.Models;
 using ImageEditor.Models.Deserializer;
 using ImageEditor.Models.Serializer;
@@ -28,26 +29,8 @@ using Action = ImageEditor.Models.Actions.Action;
 
 namespace ImageEditor.ViewModels;
 
-internal class MainWindowViewModel : NotifyPropertyChangedObject
+public partial class MainWindowViewModel : ObservableObject
 {
-    #region Commands
-
-    public ICommand TogglePopupCommand { get; private set; }
-
-    public ICommand AddActionCommand { get; private set; }
-    public ICommand DeleteActionCommand { get; private set; }
-
-    public ICommand LoadImageCommand { get; private set; }
-    public ICommand SaveImageCommand { get; private set; }
-
-    public ICommand LoadActionsCommand { get; private set; }
-    public ICommand SaveActionsCommand { get; private set; }
-
-    public ICommand SaveAllCommand { get; private set; }
-
-    #endregion
-
-
     #region Properties
 
     private bool _isPopupOpen;
@@ -114,36 +97,28 @@ internal class MainWindowViewModel : NotifyPropertyChangedObject
     {
         _dialogService = dialogService;
 
-        TogglePopupCommand = new RelayCommand<bool>(TogglePopup);
-
         Actions = ActionFactory.GetInstance().All();
-        AddActionCommand = new RelayCommand<string>(AddAction);
-        DeleteActionCommand = new RelayCommand(DeleteAction);
 
         AddedActions = [];
         AddedActions.CollectionChanged += (t, a) => RequestProcessImage();
 
         Image.PropertyChanged += OnImageUpdated;
 
-        LoadImageCommand = new RelayCommand(LoadImage);
-        SaveImageCommand = new RelayCommand<string>(SaveImage);
-
-        LoadActionsCommand = new RelayCommand(LoadActions);
-        SaveActionsCommand = new RelayCommand<string>(SaveActions);
-
-        SaveAllCommand = new RelayCommand(SaveAll);
-
         ImageDragDropHandler = new ImageDragDropHandler(TryLoadImage);
         ActionDragDropHandler = new ActionDragDropHandler(TryLoadAction);
     }
 
+    [RelayCommand]
     private void TogglePopup(bool open)
     {
         IsPopupOpen = open;
     }
 
-    private void AddAction(string name)
+    [RelayCommand]
+    private void AddAction(string? name)
     {
+        if (name == null) return;
+        
         IsPopupOpen = false;
 
         var action = ActionFactory.GetInstance().Get(name);
@@ -162,6 +137,7 @@ internal class MainWindowViewModel : NotifyPropertyChangedObject
         RequestProcessImage();
     }
 
+    [RelayCommand]
     private void DeleteAction()
     {
         if (SelectedAction == null)
@@ -187,6 +163,7 @@ internal class MainWindowViewModel : NotifyPropertyChangedObject
         SidePanelFooterMessage = "削除しました";
     }
 
+    [RelayCommand]
     private void LoadActions()
     {
         var settings = new OpenFileDialogSettings
@@ -231,8 +208,11 @@ internal class MainWindowViewModel : NotifyPropertyChangedObject
         SidePanelFooterMessage = "読み込みました";
     }
 
-    private void SaveActions(string type)
+    [RelayCommand]
+    private void SaveActions(string? type)
     {
+        if (type == null) return;
+        
         if (type == "New" || _saveActionPath == "" || !Directory.Exists(Path.GetDirectoryName(_saveActionPath)))
         {
             var settings = new SaveFileDialogSettings
@@ -279,6 +259,7 @@ internal class MainWindowViewModel : NotifyPropertyChangedObject
         };
     }
 
+    [RelayCommand]
     private void LoadImage()
     {
         var settings = new OpenFileDialogSettings
@@ -320,8 +301,11 @@ internal class MainWindowViewModel : NotifyPropertyChangedObject
         LoadImageCommandVisibility = Visibility.Hidden;
     }
 
-    private void SaveImage(string type)
+    [RelayCommand]
+    private void SaveImage(string? type)
     {
+        if (type == null) return;
+        
         if (Image.ProcessedImage == null)
         {
             ImagePanelFooterRightMessage = "保存する画像がありません";
@@ -369,6 +353,7 @@ internal class MainWindowViewModel : NotifyPropertyChangedObject
         _actionUpdateDebouncer.Debounce(() => Image.Process(AddedActions));
     }
 
+    [RelayCommand]
     private void SaveAll()
     {
         SaveImage("Override");
