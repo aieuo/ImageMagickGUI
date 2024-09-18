@@ -116,7 +116,9 @@ internal class MainWindowViewModel : NotifyPropertyChangedObject
         DeleteActionCommand = new RelayCommand(DeleteAction);
 
         AddedActions = [];
-        AddedActions.CollectionChanged += (t, a) => ProcessImageDebounce();
+        AddedActions.CollectionChanged += (t, a) => RequestProcessImage();
+
+        Image.PropertyChanged += OnImageUpdated;
 
         LoadImageCommand = new RelayCommand(LoadImage);
         SaveImageCommand = new RelayCommand<string>(SaveImage);
@@ -152,7 +154,7 @@ internal class MainWindowViewModel : NotifyPropertyChangedObject
         NotifyPropertyChanged(nameof(AddedActions));
 
         SidePanelFooterMessage = "";
-        ProcessImageDebounce();
+        RequestProcessImage();
     }
 
     private void DeleteAction()
@@ -256,6 +258,15 @@ internal class MainWindowViewModel : NotifyPropertyChangedObject
         SidePanelFooterMessage = "保存しました";
     }
 
+    private void OnImageUpdated(object? sender, PropertyChangedEventArgs e)
+    {
+        ImagePanelFooterRightMessage = e.PropertyName switch
+        {
+            nameof(Image.IsProcessingImage) => Image.IsProcessingImage ? "処理中..." : "処理完了",
+            _ => ImagePanelFooterRightMessage
+        };
+    }
+
     private void LoadImage()
     {
         var dialog = new OpenFileDialog
@@ -291,7 +302,7 @@ internal class MainWindowViewModel : NotifyPropertyChangedObject
 
         ImagePanelFooterRightMessage = "読み込みました";
 
-        ProcessImageDebounce();
+        RequestProcessImage();
         LoadImageCommandVisibility = Visibility.Hidden;
     }
 
@@ -337,43 +348,9 @@ internal class MainWindowViewModel : NotifyPropertyChangedObject
         ImagePanelFooterRightMessage = "保存しました";
     }
 
-    private async void ProcessImage()
+    private void RequestProcessImage()
     {
-        if (Image.OriginalImage == null) return;
-
-        if (_processingImage)
-        {
-            _shouldProcessImage = true;
-            return;
-        }
-
-        _processingImage = true;
-        ImagePanelFooterRightMessage = "処理中...";
-
-        await Task.Run(() =>
-        {
-            var tmp = (MagickImage)Image.OriginalImage.Clone();
-            foreach (var action in AddedActions.ToList())
-            {
-                action.ProcessImage(tmp);
-            }
-
-            Image.ProcessedImage = tmp;
-        });
-
-        _processingImage = false;
-        ImagePanelFooterRightMessage = "処理完了";
-
-        if (_shouldProcessImage)
-        {
-            _shouldProcessImage = false;
-            ProcessImageDebounce();
-        }
-    }
-
-    private void ProcessImageDebounce()
-    {
-        _actionUpdateDebouncer.Debounce(ProcessImage);
+        _actionUpdateDebouncer.Debounce(() => Image.Process(AddedActions));
     }
 
     private void SaveAll()

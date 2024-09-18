@@ -5,6 +5,8 @@ namespace ImageEditor.Models;
 
 public class Image : NotifyPropertyChangedObject
 {
+    #region Properties
+    
     private MagickImage? _originalImage = null;
 
     public MagickImage? OriginalImage
@@ -20,6 +22,18 @@ public class Image : NotifyPropertyChangedObject
         get => _processedImage;
         set => SetProperty(ref _processedImage, value);
     }
+    
+    private bool _isProcessingImage = false;
+
+    public bool IsProcessingImage
+    {
+        get => _isProcessingImage;
+        set => SetProperty(ref _isProcessingImage, value);
+    }
+    
+    #endregion
+
+    private bool _shouldReProcessImage = false;
     
     public void Load(string path)
     {
@@ -37,5 +51,37 @@ public class Image : NotifyPropertyChangedObject
         }
 
         ProcessedImage.Write(path);
+    }
+
+    public async void Process(ICollection<Actions.Action> actions)
+    {
+        if (OriginalImage == null) return;
+
+        if (_isProcessingImage)
+        {
+            _shouldReProcessImage = true;
+            return;
+        }
+
+        IsProcessingImage = true;
+
+        await Task.Run(() =>
+        {
+            var tmp = (MagickImage)OriginalImage.Clone();
+            foreach (var action in actions)
+            {
+                action.ProcessImage(tmp);
+            }
+
+            ProcessedImage = tmp;
+        });
+
+        IsProcessingImage = false;
+
+        if (_shouldReProcessImage)
+        {
+            _shouldReProcessImage = false;
+            Process(actions);
+        }
     }
 }
