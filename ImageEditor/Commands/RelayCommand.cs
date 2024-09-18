@@ -7,11 +7,11 @@ using System.Windows.Input;
 
 namespace ImageEditor.Commands;
 
-internal class DelegateCommand<T>(Action<T> execute, Func<bool> canExecute) : ICommand
+internal class RelayCommand<T>(Action<T> execute, Func<bool> canExecute) : ICommand
 {
     public event EventHandler? CanExecuteChanged;
 
-    public DelegateCommand(Action<T> execute) : this(execute, () => true)
+    public RelayCommand(Action<T> execute) : this(execute, () => true)
     {
     }
 
@@ -27,11 +27,11 @@ internal class DelegateCommand<T>(Action<T> execute, Func<bool> canExecute) : IC
 }
 
 
-internal class DelegateCommand(Action execute, Func<bool> canExecute) : ICommand
+internal class RelayCommand(Action execute, Func<bool> canExecute) : ICommand
 {
     public event EventHandler? CanExecuteChanged;
 
-    public DelegateCommand(Action execute) : this(execute, () => true)
+    public RelayCommand(Action execute) : this(execute, () => true)
     {
     }
 

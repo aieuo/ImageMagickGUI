@@ -122,22 +122,22 @@ internal class MainWindowViewModel : ViewModelBase
 
     public MainWindowViewModel()
     {
-        TogglePopupCommand = new DelegateCommand<bool>(TogglePopup);
+        TogglePopupCommand = new RelayCommand<bool>(TogglePopup);
 
         Actions = ActionFactory.GetInstance().All();
-        AddActionCommand = new DelegateCommand<string>(AddAction);
-        DeleteActionCommand = new DelegateCommand(DeleteAction);
+        AddActionCommand = new RelayCommand<string>(AddAction);
+        DeleteActionCommand = new RelayCommand(DeleteAction);
 
         AddedActions = [];
         AddedActions.CollectionChanged += (t, a) => ProcessImageDebounce();
 
-        LoadImageCommand = new DelegateCommand(LoadImage);
-        SaveImageCommand = new DelegateCommand<string>(SaveImage);
+        LoadImageCommand = new RelayCommand(LoadImage);
+        SaveImageCommand = new RelayCommand<string>(SaveImage);
 
-        LoadActionsCommand = new DelegateCommand(LoadActions);
-        SaveActionsCommand = new DelegateCommand<string>(SaveActions);
+        LoadActionsCommand = new RelayCommand(LoadActions);
+        SaveActionsCommand = new RelayCommand<string>(SaveActions);
 
-        SaveAllCommand = new DelegateCommand(SaveAll);
+        SaveAllCommand = new RelayCommand(SaveAll);
 
         ImageDragDropHandler = new ImageDragDropHandler(TryLoadImage);
         ActionDragDropHandler = new ActionDragDropHandler(TryLoadAction);
