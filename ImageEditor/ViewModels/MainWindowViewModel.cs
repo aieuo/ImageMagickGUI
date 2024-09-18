@@ -75,31 +75,19 @@ internal class MainWindowViewModel : ViewModelBase
 
     private MagickImage? _originalImage = null;
 
-    private MagickImage? OriginalImage
+    public MagickImage? OriginalImage
     {
         get => _originalImage;
-        set
-        {
-            SetProperty(ref _originalImage, value);
-            NotifyPropertyChanged(nameof(OriginalBitmapImage));
-        }
+        private set => SetProperty(ref _originalImage, value);
     }
-
-    public BitmapSource? OriginalBitmapImage => OriginalImage?.ToBitmapSource();
 
     private MagickImage? _processedImage = null;
 
-    private MagickImage? ProcessedImage
+    public MagickImage? ProcessedImage
     {
         get => _processedImage;
-        set
-        {
-            SetProperty(ref _processedImage, value);
-            NotifyPropertyChanged(nameof(ProcessedBitmapImage));
-        }
+        private set => SetProperty(ref _processedImage, value);
     }
-
-    public BitmapSource? ProcessedBitmapImage => ProcessedImage?.ToBitmapSource();
 
     private string _sidePanelFooterMessage = "";
 

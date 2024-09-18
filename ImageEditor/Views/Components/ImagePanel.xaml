@@ -4,11 +4,17 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:vm="clr-namespace:ImageEditor.ViewModels"
+             xmlns:converters="clr-namespace:ImageEditor.Views.Converters"
              xmlns:zp="https://github.com/Moravuscz/WPFZoomPanel"
              xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
              mc:Ignorable="d"
              d:DesignHeight="695" d:DesignWidth="1030"
              d:DataContext="{d:DesignInstance vm:MainWindowViewModel}">
+
+    <UserControl.Resources>
+        <converters:MagickImageToImageSourceConverter x:Key="MagickImageConverter" />
+    </UserControl.Resources>
+
     <Grid Margin="0,10,15,10">
         <Grid.RowDefinitions>
             <RowDefinition Height="30" />
@@ -30,7 +36,7 @@
                                           VerticalScrollBarVisibility="Hidden"
                                           ZoomAndPanInitialPosition="FitScreen">
                     <Image Margin="300"
-                           Source="{Binding OriginalBitmapImage}" />
+                           Source="{Binding OriginalImage, Converter={StaticResource MagickImageConverter}}" />
                 </zp:ZoomPanelScrollViewer>
 
                 <zp:ZoomPanelScrollViewer Grid.Column="1"
@@ -38,7 +44,7 @@
                                           VerticalScrollBarVisibility="Hidden"
                                           ZoomAndPanInitialPosition="FitScreen">
                     <Image Margin="300"
-                           Source="{Binding ProcessedBitmapImage}" />
+                           Source="{Binding ProcessedImage, Converter={StaticResource MagickImageConverter}}" />
                 </zp:ZoomPanelScrollViewer>
 
                 <Button Grid.Column="0" Grid.ColumnSpan="2"
