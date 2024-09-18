@@ -5,12 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:ImageEditor.ViewModels"
         xmlns:components="clr-namespace:ImageEditor.Views.Components"
+        xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
+        md:DialogServiceViews.IsRegistered="True"
         mc:Ignorable="d"
+        DataContext="{Binding Source={StaticResource Locator}, Path=MainWindow}"
         Title="ImageEditor" Height="720" Width="1280">
-
-    <Window.DataContext>
-        <vm:MainWindowViewModel />
-    </Window.DataContext>
     
     <Window.InputBindings>
         <KeyBinding Gesture="Ctrl+S" Command="{Binding SaveAllCommand}"/>

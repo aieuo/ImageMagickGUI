@@ -21,16 +21,6 @@ namespace ImageEditor.Views
         public MainWindow()
         {
             InitializeComponent();
-            
-            if (DataContext is MainWindowViewModel viewModel)
-            {
-                viewModel.MessageBoxRequest += HandleMessageBoxRequest;
-            }
-        }
-        
-        private void HandleMessageBoxRequest(object? sender, MvvmMessageBoxEventArgs args)
-        {
-            args.Show();
         }
     }
 }

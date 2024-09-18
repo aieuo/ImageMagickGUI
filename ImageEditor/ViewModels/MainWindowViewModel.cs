@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
+using CommunityToolkit.Mvvm.ComponentModel;
 using ImageEditor.Models;
 using ImageEditor.Models.Deserializer;
 using ImageEditor.Models.Serializer;
@@ -20,6 +21,9 @@ using ImageEditor.Utils;
 using ImageEditor.ViewModels.DragDrop;
 using ImageMagick;
 using Microsoft.Win32;
+using MvvmDialogs;
+using MvvmDialogs.FrameworkDialogs.OpenFile;
+using MvvmDialogs.FrameworkDialogs.SaveFile;
 using Action = ImageEditor.Models.Actions.Action;
 
 namespace ImageEditor.ViewModels;
@@ -97,18 +101,19 @@ internal class MainWindowViewModel : NotifyPropertyChangedObject
 
     #endregion
 
+    private readonly IDialogService _dialogService;
 
     private readonly DebounceDispatcher _actionUpdateDebouncer = new();
 
     private bool _processingImage = false;
     private bool _shouldProcessImage = false;
-    public event EventHandler<MvvmMessageBoxEventArgs>? MessageBoxRequest;
-
     private string _saveImagePath = "";
     private string _saveActionPath = "";
 
-    public MainWindowViewModel()
+    public MainWindowViewModel(IDialogService dialogService)
     {
+        _dialogService = dialogService;
+
         TogglePopupCommand = new RelayCommand<bool>(TogglePopup);
 
         Actions = ActionFactory.GetInstance().All();
@@ -165,34 +170,39 @@ internal class MainWindowViewModel : NotifyPropertyChangedObject
             return;
         }
 
-        MessageBoxRequest?.Invoke(this, new MvvmMessageBoxEventArgs(result =>
-            {
-                if (result == MessageBoxResult.No)
-                {
-                    SidePanelFooterMessage = "キャンセルしました";
-                    return;
-                }
-
-                AddedActions.Remove(SelectedAction);
-                SidePanelFooterMessage = "削除しました";
-            }, $"本当に「{SelectedAction.FormatedString}」を削除しますか?", "削除", MessageBoxButton.YesNo,
-            MessageBoxImage.Question));
-    }
-
-    private void LoadActions()
-    {
-        var dialog = new OpenFileDialog
-        {
-            Title = "ファイルを選択してください",
-            Filter = "File|*.json"
-        };
-        if (dialog.ShowDialog() != true)
+        var result = _dialogService.ShowMessageBox(
+            this,
+            $"本当に「{SelectedAction.FormatedString}」を削除しますか?",
+            "削除",
+            MessageBoxButton.YesNo,
+            MessageBoxImage.Question
+        );
+        if (result == MessageBoxResult.No)
         {
             SidePanelFooterMessage = "キャンセルしました";
             return;
         }
 
-        TryLoadAction(dialog.FileName);
+        AddedActions.Remove(SelectedAction);
+        SidePanelFooterMessage = "削除しました";
+    }
+
+    private void LoadActions()
+    {
+        var settings = new OpenFileDialogSettings
+        {
+            Title = "ファイルを選択してください",
+            Filter = "File|*.json",
+        };
+
+        var success = _dialogService.ShowOpenFileDialog(this, settings);
+        if (success != true)
+        {
+            SidePanelFooterMessage = "キャンセルしました";
+            return;
+        }
+
+        TryLoadAction(settings.FileName);
     }
 
     private void TryLoadAction(string path)
@@ -209,11 +219,11 @@ internal class MainWindowViewModel : NotifyPropertyChangedObject
         }
         catch (Exception e)
         {
-            MessageBoxRequest?.Invoke(this, new MvvmMessageBoxEventArgs(
-                null,
+            _dialogService.ShowMessageBox(
+                this,
                 $"ファイルの読み込みに失敗しました\n{e.Message}",
                 icon: MessageBoxImage.Error
-            ));
+            );
             SidePanelFooterMessage = "読み込み失敗";
             return;
         }
@@ -225,18 +235,20 @@ internal class MainWindowViewModel : NotifyPropertyChangedObject
     {
         if (type == "New" || _saveActionPath == "" || !Directory.Exists(Path.GetDirectoryName(_saveActionPath)))
         {
-            var dialog = new SaveFileDialog
+            var settings = new SaveFileDialogSettings
             {
                 Title = "ファイルを選択してください",
-                Filter = "File|*.json"
+                Filter = "File|*.json",
             };
-            if (dialog.ShowDialog() != true)
+
+            var success = _dialogService.ShowSaveFileDialog(this, settings);
+            if (success != true)
             {
                 SidePanelFooterMessage = "キャンセルしました";
                 return;
             }
 
-            _saveActionPath = dialog.FileName;
+            _saveActionPath = settings.FileName;
         }
 
         try
@@ -246,11 +258,11 @@ internal class MainWindowViewModel : NotifyPropertyChangedObject
         }
         catch (Exception e)
         {
-            MessageBoxRequest?.Invoke(this, new MvvmMessageBoxEventArgs(
-                null,
+            _dialogService.ShowMessageBox(
+                this,
                 $"ファイルの保存に失敗しました\n{e.Message}",
                 icon: MessageBoxImage.Error
-            ));
+            );
             SidePanelFooterMessage = "保存失敗";
             return;
         }
@@ -269,18 +281,20 @@ internal class MainWindowViewModel : NotifyPropertyChangedObject
 
     private void LoadImage()
     {
-        var dialog = new OpenFileDialog
+        var settings = new OpenFileDialogSettings
         {
             Title = "画像を選択してください",
-            Filter = "Image Files|*.bmp;*.jpg;*.jpeg;*.png;*.tif|All Files|*.*"
+            Filter = "Image Files|*.bmp;*.jpg;*.jpeg;*.png;*.tif|All Files|*.*",
         };
-        if (dialog.ShowDialog() != true)
+
+        var success = _dialogService.ShowOpenFileDialog(this, settings);
+        if (success != true)
         {
             ImagePanelFooterRightMessage = "キャンセルしました";
             return;
         }
 
-        TryLoadImage(dialog.FileName);
+        TryLoadImage(settings.FileName);
     }
 
     private void TryLoadImage(string path)
@@ -291,11 +305,11 @@ internal class MainWindowViewModel : NotifyPropertyChangedObject
         }
         catch (Exception e)
         {
-            MessageBoxRequest?.Invoke(this, new MvvmMessageBoxEventArgs(
-                null,
+            _dialogService.ShowMessageBox(
+                this,
                 $"ファイルの読み込みに失敗しました\n{e.Message}",
                 icon: MessageBoxImage.Error
-            ));
+            );
             ImagePanelFooterRightMessage = "画像読み込み失敗";
             return;
         }
@@ -316,18 +330,20 @@ internal class MainWindowViewModel : NotifyPropertyChangedObject
 
         if (type == "New" || _saveImagePath == "" || !Directory.Exists(Path.GetDirectoryName(_saveImagePath)))
         {
-            var dialog = new SaveFileDialog
+            var settings = new SaveFileDialogSettings
             {
                 Title = "画像を選択してください",
-                Filter = "Image Files|*.bmp;*.jpg;*.jpeg;*.png;*.tif|All Files|*.*"
+                Filter = "Image Files|*.bmp;*.jpg;*.jpeg;*.png;*.tif|All Files|*.*",
             };
-            if (dialog.ShowDialog() != true)
+
+            var success = _dialogService.ShowSaveFileDialog(this, settings);
+            if (success != true)
             {
                 ImagePanelFooterRightMessage = "キャンセルしました";
                 return;
             }
 
-            _saveImagePath = dialog.FileName;
+            _saveImagePath = settings.FileName;
         }
 
         try
@@ -336,11 +352,11 @@ internal class MainWindowViewModel : NotifyPropertyChangedObject
         }
         catch (Exception e)
         {
-            MessageBoxRequest?.Invoke(this, new MvvmMessageBoxEventArgs(
-                null,
+            _dialogService.ShowMessageBox(
+                this,
                 $"ファイルの保存に失敗しました\n{e.Message}",
                 icon: MessageBoxImage.Error
-            ));
+            );
             ImagePanelFooterRightMessage = "画像保存失敗";
             return;
         }
