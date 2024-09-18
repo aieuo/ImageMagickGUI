@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
+using ImageEditor.Models;
 using ImageEditor.Models.Deserializer;
 using ImageEditor.Models.Serializer;
 using ImageEditor.Utils;
@@ -23,7 +24,7 @@ using Action = ImageEditor.Models.Actions.Action;
 
 namespace ImageEditor.ViewModels;
 
-internal class MainWindowViewModel : ViewModelBase
+internal class MainWindowViewModel : NotifyPropertyChangedObject
 {
     #region Commands
 
@@ -73,21 +74,7 @@ internal class MainWindowViewModel : ViewModelBase
         set => SetProperty(ref _loadImageCommandVisibility, value);
     }
 
-    private MagickImage? _originalImage = null;
-
-    public MagickImage? OriginalImage
-    {
-        get => _originalImage;
-        private set => SetProperty(ref _originalImage, value);
-    }
-
-    private MagickImage? _processedImage = null;
-
-    public MagickImage? ProcessedImage
-    {
-        get => _processedImage;
-        private set => SetProperty(ref _processedImage, value);
-    }
+    public Image Image { get; } = new();
 
     private string _sidePanelFooterMessage = "";
 
@@ -289,8 +276,7 @@ internal class MainWindowViewModel : ViewModelBase
     {
         try
         {
-            OriginalImage = new MagickImage(path);
-            OriginalImage.ColorSpace = ColorSpace.sRGB;
+            Image.Load(path);
         }
         catch (Exception e)
         {
@@ -311,7 +297,7 @@ internal class MainWindowViewModel : ViewModelBase
 
     private void SaveImage(string type)
     {
-        if (ProcessedImage == null)
+        if (Image.ProcessedImage == null)
         {
             ImagePanelFooterRightMessage = "保存する画像がありません";
             return;
@@ -335,7 +321,7 @@ internal class MainWindowViewModel : ViewModelBase
 
         try
         {
-            ProcessedImage.Write(_saveImagePath);
+            Image.Save(_saveImagePath);
         }
         catch (Exception e)
         {
@@ -353,7 +339,7 @@ internal class MainWindowViewModel : ViewModelBase
 
     private async void ProcessImage()
     {
-        if (OriginalImage == null) return;
+        if (Image.OriginalImage == null) return;
 
         if (_processingImage)
         {
@@ -366,13 +352,13 @@ internal class MainWindowViewModel : ViewModelBase
 
         await Task.Run(() =>
         {
-            var tmp = (MagickImage)OriginalImage.Clone();
+            var tmp = (MagickImage)Image.OriginalImage.Clone();
             foreach (var action in AddedActions.ToList())
             {
                 action.ProcessImage(tmp);
             }
 
-            ProcessedImage = tmp;
+            Image.ProcessedImage = tmp;
         });
 
         _processingImage = false;

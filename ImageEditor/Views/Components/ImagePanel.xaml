@@ -36,7 +36,7 @@
                                           VerticalScrollBarVisibility="Hidden"
                                           ZoomAndPanInitialPosition="FitScreen">
                     <Image Margin="300"
-                           Source="{Binding OriginalImage, Converter={StaticResource MagickImageConverter}}" />
+                           Source="{Binding Image.OriginalImage, Converter={StaticResource MagickImageConverter}}" />
                 </zp:ZoomPanelScrollViewer>
 
                 <zp:ZoomPanelScrollViewer Grid.Column="1"
@@ -44,7 +44,7 @@
                                           VerticalScrollBarVisibility="Hidden"
                                           ZoomAndPanInitialPosition="FitScreen">
                     <Image Margin="300"
-                           Source="{Binding ProcessedImage, Converter={StaticResource MagickImageConverter}}" />
+                           Source="{Binding Image.ProcessedImage, Converter={StaticResource MagickImageConverter}}" />
                 </zp:ZoomPanelScrollViewer>
 
                 <Button Grid.Column="0" Grid.ColumnSpan="2"
