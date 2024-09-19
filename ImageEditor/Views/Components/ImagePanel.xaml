@@ -49,7 +49,7 @@
 
                 <Button Grid.Column="0" Grid.ColumnSpan="2"
                         Command="{Binding LoadImageCommand}"
-                        Visibility="{Binding LoadImageCommandVisibility}">
+                        Visibility="{Binding LoadImageButtonVisibility}">
                     クリック又はドラッグアンドドロップで画像を読み込む
                 </Button>
             </Grid>

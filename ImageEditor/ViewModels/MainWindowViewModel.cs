@@ -53,12 +53,12 @@ public partial class MainWindowViewModel : ObservableObject
         set => SetProperty(ref _selectedAction, value);
     }
 
-    private Visibility _loadImageCommandVisibility = Visibility.Visible;
+    private Visibility _loadImageButtonVisibility = Visibility.Visible;
 
-    public Visibility LoadImageCommandVisibility
+    public Visibility LoadImageButtonVisibility
     {
-        get => _loadImageCommandVisibility;
-        set => SetProperty(ref _loadImageCommandVisibility, value);
+        get => _loadImageButtonVisibility;
+        set => SetProperty(ref _loadImageButtonVisibility, value);
     }
 
     public Image Image { get; } = new();
@@ -298,7 +298,7 @@ public partial class MainWindowViewModel : ObservableObject
         ImagePanelFooterRightMessage = "読み込みました";
 
         RequestProcessImage();
-        LoadImageCommandVisibility = Visibility.Hidden;
+        LoadImageButtonVisibility = Visibility.Hidden;
     }
 
     [RelayCommand]
