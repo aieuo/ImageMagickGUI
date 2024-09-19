@@ -103,6 +103,16 @@ namespace ImageEditor.Properties {
         /// <summary>
         ///   型 System.Byte[] のローカライズされたリソースを検索します。
         /// </summary>
+        internal static byte[] photo_filter {
+            get {
+                object obj = ResourceManager.GetObject("photo-filter", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Byte[] のローカライズされたリソースを検索します。
+        /// </summary>
         internal static byte[] rotation {
             get {
                 object obj = ResourceManager.GetObject("rotation", resourceCulture);

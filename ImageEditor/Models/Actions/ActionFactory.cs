@@ -31,6 +31,7 @@ internal class ActionFactory
         Register(() => new RotateAction());
         Register(() => new FlipAction());
         Register(() => new TrimAction());
+        Register(() => new FilterAction());
     }
 
     public void Register(Func<Action> actionCreator)

@@ -1,5 +1,6 @@
 using System.Windows.Media;
 using ImageEditor.Models.Actions;
+using ImageMagick;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Action = ImageEditor.Models.Actions.Action;
@@ -41,6 +42,9 @@ public class ActionDeserializer
         ));
         Add("Trim", parameters => new TrimAction(
             float.Parse(parameters[0])
+        ));
+        Add("Filter", parameters => new FilterAction(
+            (FilterAction.FilterType)Enum.Parse(typeof(FilterAction.FilterType), parameters[0])
         ));
     }
 

@@ -29,7 +29,7 @@
                             Minimum="{Binding MinValue}"
                             Maximum="{Binding MaxValue}"
                             Value="{Binding Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                            TickFrequency="1"
+                            TickFrequency="{Binding StepValue}"
                             IsSnapToTickEnabled="True"
                             IsMoveToPointEnabled="True"
                             HorizontalAlignment="Stretch" />

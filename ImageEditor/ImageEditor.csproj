@@ -11,6 +11,7 @@
   <ItemGroup>
     <None Remove="Resources\flip.png" />
     <None Remove="Resources\minus.png" />
+    <None Remove="Resources\photo-filter.png" />
     <None Remove="Resources\plus.png" />
     <None Remove="Resources\resolution.png" />
     <None Remove="Resources\rotation.png" />
@@ -19,6 +20,7 @@
   <ItemGroup>
     <Resource Include="Resources\flip.png" />
     <Resource Include="Resources\minus.png" />
+    <Resource Include="Resources\photo-filter.png" />
     <Resource Include="Resources\plus.png" />
     <Resource Include="Resources\resolution.png" />
     <Resource Include="Resources\rotation.png" />
