@@ -50,8 +50,6 @@ public abstract class Action : ObservableObject
 
         return param;
     }
-
-    public abstract Dictionary<string, string> GetCommandParameters();
     
     public abstract void ProcessImage(MagickImage image);
 }

@@ -22,8 +22,7 @@ internal class FlipAction : Action
         { FlipType.Flip, "上下反転させる" },
         { FlipType.Flop, "左右反転させる" },
     };
-
-
+    
     public override string Name => "Flip";
 
     public override string Description => "画像を反転させる";
@@ -48,13 +47,5 @@ internal class FlipAction : Action
         {
             image.Flop();
         }
-    }
-
-    public override Dictionary<string, string> GetCommandParameters()
-    {
-        return new Dictionary<string, string>
-        {
-            { $"-{GetParameter<EnumParameter<FlipType>>("type").Value.ToString().ToLower()}", "" }
-        };
     }
 }

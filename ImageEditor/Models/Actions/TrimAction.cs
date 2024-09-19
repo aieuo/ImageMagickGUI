@@ -28,13 +28,4 @@ internal class TrimAction : Action
         image.ColorFuzz = new Percentage(GetParameter<FloatParameter>("fuzz").Value);
         image.Trim();
     }
-
-    public override Dictionary<string, string> GetCommandParameters()
-    {
-        return new Dictionary<string, string>
-        {
-            { "-fuzz", $"{GetParameter<FloatParameter>("fuzz")}%" },
-            { "-trim", "" }
-        };
-    }
 }

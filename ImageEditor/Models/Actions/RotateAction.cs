@@ -35,12 +35,4 @@ internal class RotateAction : Action
         image.BackgroundColor = new MagickColor(color.R, color.G, color.B, color.A);
         image.Rotate(GetParameter<FloatParameter>("angle").Value);
     }
-
-    public override Dictionary<string, string> GetCommandParameters()
-    {
-        return new Dictionary<string, string>
-        {
-            { "-rotate", $"+{GetParameter<FloatParameter>("angle")}" }
-        };
-    }
 }
