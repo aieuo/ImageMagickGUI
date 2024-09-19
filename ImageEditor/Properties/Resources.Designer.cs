@@ -93,9 +93,39 @@ namespace ImageEditor.Properties {
         /// <summary>
         ///   型 System.Byte[] のローカライズされたリソースを検索します。
         /// </summary>
+        internal static byte[] iconmonstr_folder_open_thin_16 {
+            get {
+                object obj = ResourceManager.GetObject("iconmonstr-folder-open-thin-16", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Byte[] のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static byte[] iconmonstr_save_14_16 {
+            get {
+                object obj = ResourceManager.GetObject("iconmonstr-save-14-16", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Byte[] のローカライズされたリソースを検索します。
+        /// </summary>
         internal static byte[] minus {
             get {
                 object obj = ResourceManager.GetObject("minus", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Byte[] のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static byte[] photo_filter {
+            get {
+                object obj = ResourceManager.GetObject("photo-filter", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -116,16 +146,6 @@ namespace ImageEditor.Properties {
         internal static byte[] resolution {
             get {
                 object obj = ResourceManager.GetObject("resolution", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   型 System.Byte[] のローカライズされたリソースを検索します。
-        /// </summary>
-        internal static byte[] photo_filter {
-            get {
-                object obj = ResourceManager.GetObject("photo-filter", resourceCulture);
                 return ((byte[])(obj));
             }
         }
