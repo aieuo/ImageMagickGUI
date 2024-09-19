@@ -1,17 +1,5 @@
 ﻿using ImageEditor.Models.Actions.Parameters;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Reflection;
-using System.Reflection.Metadata;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media;
-using System.Xml;
-using System.Xml.Schema;
 using CommunityToolkit.Mvvm.ComponentModel;
 using ImageMagick;
 

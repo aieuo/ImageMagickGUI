@@ -1,9 +1,4 @@
 ﻿using ImageEditor.Models.Actions.Parameters;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ImageMagick;
 
 namespace ImageEditor.Models.Actions;

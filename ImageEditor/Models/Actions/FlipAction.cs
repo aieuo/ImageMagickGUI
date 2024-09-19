@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
-using ImageEditor.Models.Actions.Parameters;
+﻿using ImageEditor.Models.Actions.Parameters;
 using ImageMagick;
 
 namespace ImageEditor.Models.Actions;
