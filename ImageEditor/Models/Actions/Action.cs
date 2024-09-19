@@ -12,24 +12,17 @@ using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Xml;
 using System.Xml.Schema;
+using CommunityToolkit.Mvvm.ComponentModel;
 using ImageMagick;
 
 namespace ImageEditor.Models.Actions;
 
-public abstract class Action : INotifyPropertyChanged
+public abstract class Action : ObservableObject
 {
-    public event PropertyChangedEventHandler? PropertyChanged;
-
-    protected void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
-
-
     public abstract string Name { get; }
 
     public abstract string Description { get; }
-        
+    
     public abstract string FormatedString { get; }
 
     /// <summary>
@@ -44,8 +37,7 @@ public abstract class Action : INotifyPropertyChanged
         Parameters.Add(parameter);
         parameter.PropertyChanged += (_, _) =>
         {
-            NotifyPropertyChanged(nameof(Parameters));
-            NotifyPropertyChanged(nameof(FormatedString));
+            OnPropertyChanged(nameof(FormatedString));
         };
     }
 

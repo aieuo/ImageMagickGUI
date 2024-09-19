@@ -1,37 +1,19 @@
+using CommunityToolkit.Mvvm.ComponentModel;
 using ImageEditor.Utils;
 using ImageMagick;
 
 namespace ImageEditor.Models;
 
-public class Image : NotifyPropertyChangedObject
+public partial class Image : ObservableObject
 {
-    #region Properties
-    
+    [ObservableProperty]
     private MagickImage? _originalImage = null;
-
-    public MagickImage? OriginalImage
-    {
-        get => _originalImage;
-        set => SetProperty(ref _originalImage, value);
-    }
-
+    
+    [ObservableProperty]
     private MagickImage? _processedImage = null;
 
-    public MagickImage? ProcessedImage
-    {
-        get => _processedImage;
-        set => SetProperty(ref _processedImage, value);
-    }
-    
+    [ObservableProperty]
     private bool _isProcessingImage = false;
-
-    public bool IsProcessingImage
-    {
-        get => _isProcessingImage;
-        set => SetProperty(ref _isProcessingImage, value);
-    }
-    
-    #endregion
 
     private bool _shouldReProcessImage = false;
     
@@ -57,7 +39,7 @@ public class Image : NotifyPropertyChangedObject
     {
         if (OriginalImage == null) return;
 
-        if (_isProcessingImage)
+        if (IsProcessingImage)
         {
             _shouldReProcessImage = true;
             return;

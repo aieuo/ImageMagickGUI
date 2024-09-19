@@ -1,18 +1,12 @@
+using CommunityToolkit.Mvvm.ComponentModel;
+
 namespace ImageEditor.Models.Actions.Parameters;
 
-public class EnumParameter<T>(string name, string description, T value, Dictionary<T, string> options)
+public partial class EnumParameter<T>(string name, string description, T value, Dictionary<T, string> options)
     : EnumParameter(name, description, value, (options as Dictionary<Enum, string>)!) where T : Enum
 {
+    [ObservableProperty]
     private T _value = value;
-    public new T Value
-    {
-        get => _value;
-        set
-        {
-            _value = value;
-            NotifyPropertyChanged();
-        }
-    }
     
     public new Dictionary<T, string> Options => options;
 }

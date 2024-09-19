@@ -1,18 +1,9 @@
-﻿using ImageEditor.Commands;
-using ImageEditor.Models.Actions;
-using System;
-using System.Collections.Generic;
+﻿using ImageEditor.Models.Actions;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media.Imaging;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ImageEditor.Models;
@@ -20,8 +11,6 @@ using ImageEditor.Models.Deserializer;
 using ImageEditor.Models.Serializer;
 using ImageEditor.Utils;
 using ImageEditor.ViewModels.DragDrop;
-using ImageMagick;
-using Microsoft.Win32;
 using MvvmDialogs;
 using MvvmDialogs.FrameworkDialogs.OpenFile;
 using MvvmDialogs.FrameworkDialogs.SaveFile;
@@ -31,65 +20,35 @@ namespace ImageEditor.ViewModels;
 
 public partial class MainWindowViewModel : ObservableObject
 {
-    #region Properties
-
+    [ObservableProperty]
     private bool _isPopupOpen;
-
-    public bool IsPopupOpen
-    {
-        get => _isPopupOpen;
-        set => SetProperty(ref _isPopupOpen, value);
-    }
 
     public List<Action> Actions { get; }
 
     public ObservableCollection<Action> AddedActions { get; }
 
+    [ObservableProperty]
     private Action? _selectedAction = null;
 
-    public Action? SelectedAction
-    {
-        get => _selectedAction;
-        set => SetProperty(ref _selectedAction, value);
-    }
-
+    [ObservableProperty]
     private Visibility _loadImageButtonVisibility = Visibility.Visible;
 
-    public Visibility LoadImageButtonVisibility
-    {
-        get => _loadImageButtonVisibility;
-        set => SetProperty(ref _loadImageButtonVisibility, value);
-    }
+    [ObservableProperty]
+    private Image _image = new();
 
-    public Image Image { get; } = new();
-
+    [ObservableProperty]
     private string _sidePanelFooterMessage = "";
-
-    public string SidePanelFooterMessage
-    {
-        get => _sidePanelFooterMessage;
-        private set => SetProperty(ref _sidePanelFooterMessage, value);
-    }
-
+    
+    [ObservableProperty]
     private string _imagePanelFooterRightMessage = "";
-
-    public string ImagePanelFooterRightMessage
-    {
-        get => _imagePanelFooterRightMessage;
-        private set => SetProperty(ref _imagePanelFooterRightMessage, value);
-    }
 
     public ImageDragDropHandler ImageDragDropHandler { get; private set; }
     public ActionDragDropHandler ActionDragDropHandler { get; private set; }
-
-    #endregion
 
     private readonly IDialogService _dialogService;
 
     private readonly DebounceDispatcher _actionUpdateDebouncer = new();
 
-    private bool _processingImage = false;
-    private bool _shouldProcessImage = false;
     private string _saveImagePath = "";
     private string _saveActionPath = "";
 
@@ -131,8 +90,6 @@ public partial class MainWindowViewModel : ObservableObject
 
     private void OnUpdateAction()
     {
-        NotifyPropertyChanged(nameof(AddedActions));
-
         SidePanelFooterMessage = "";
         RequestProcessImage();
     }
