@@ -10,6 +10,8 @@ internal class InputTemplateSelector : DataTemplateSelector
     public DataTemplate IntParamTemplate { get; set; }
     public DataTemplate EnumParamTemplate { get; set; }
     public DataTemplate ColorParamTemplate { get; set; }
+    public DataTemplate ScaleParamTemplate { get; set; }
+    public DataTemplate WidthAndHeightParamTemplate { get; set; }
 
     public override DataTemplate SelectTemplate(object? item, DependencyObject container)
     {
@@ -19,6 +21,8 @@ internal class InputTemplateSelector : DataTemplateSelector
             IntParameter => IntParamTemplate,
             EnumParameter => EnumParamTemplate,
             ColorParameter => ColorParamTemplate,
+            ScaleParameter => ScaleParamTemplate,
+            WidthAndHeightParameter => WidthAndHeightParamTemplate,
             _ => base.SelectTemplate(item, container)
         };
     }

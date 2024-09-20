@@ -12,8 +12,39 @@
              mc:Ignorable="d"
              d:DesignHeight="695" d:DesignWidth="250"
              d:DataContext="{d:DesignInstance vm:MainWindowViewModel}">
-    
+
     <UserControl.Resources>
+        <DataTemplate x:Key="ScaleParameterInputs">
+            <Grid d:DataContext="{d:DesignInstance params:ScaleParameter}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="45" />
+                    <ColumnDefinition Width="45" />
+                </Grid.ColumnDefinitions>
+
+                <Slider Grid.Column="0"
+                        Minimum="1"
+                        Maximum="100"
+                        Value="{Binding Value.Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                        TickFrequency="1"
+                        IsSnapToTickEnabled="True"
+                        IsMoveToPointEnabled="True"
+                        HorizontalAlignment="Stretch" />
+
+                <TextBox Grid.Column="1"
+                         Margin="5,0,0,0"
+                         HorizontalAlignment="Stretch"
+                         Text="{Binding Value.Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+
+                <ComboBox Grid.Column="2"
+                          Margin="5,0,0,0"
+                          ItemsSource="{Binding Options}"
+                          SelectedValue="{Binding Value.Type, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                          SelectedValuePath="Key" DisplayMemberPath="Value"
+                          HorizontalAlignment="Stretch" />
+            </Grid>
+        </DataTemplate>
+
         <DataTemplate x:Key="FloatParamTemplate"
                       DataType="{x:Type params:FloatParameter}">
             <StackPanel>
@@ -106,12 +137,63 @@
             </StackPanel>
         </DataTemplate>
 
+        <DataTemplate x:Key="ScaleParamTemplate"
+                      DataType="{x:Type params:ScaleParameter}">
+            <StackPanel>
+                <TextBlock Text="{Binding Description}" Margin="0,0,0,2" />
+                <ContentControl ContentTemplate="{StaticResource ScaleParameterInputs}" />
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="WidthAndHeightParamTemplate"
+                      DataType="{x:Type params:WidthAndHeightParameter}">
+            <StackPanel>
+                <TextBlock Text="{Binding Description}" Margin="0,0,0,2" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="25" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0" Grid.Column="0" Margin="0,0,0,2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="25" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        
+                        <TextBlock Text="{Binding Width.Description}" Margin="0,0,0,2" />
+                        <ContentControl Grid.Column="1"
+                                        ContentTemplate="{StaticResource ScaleParameterInputs}"
+                                        Content="{Binding Width}" />
+                    </Grid>
+
+                    <Grid Grid.Row="1" Grid.Column="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="25" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        
+                        <TextBlock Text="{Binding Height.Description}" Margin="0,0,0,2" />
+                        <ContentControl Grid.Column="1"
+                                        ContentTemplate="{StaticResource ScaleParameterInputs}"
+                                        Content="{Binding Height}" />
+                    </Grid>
+                </Grid>
+            </StackPanel>
+        </DataTemplate>
+
         <utils:InputTemplateSelector
             x:Key="InputTemplateSelector"
             FloatParamTemplate="{StaticResource FloatParamTemplate}"
             IntParamTemplate="{StaticResource IntParamTemplate}"
             EnumParamTemplate="{StaticResource EnumParamTemplate}"
-            ColorParamTemplate="{StaticResource ColorParamTemplate}" />
+            ColorParamTemplate="{StaticResource ColorParamTemplate}"
+            ScaleParamTemplate="{StaticResource ScaleParamTemplate}"
+            WidthAndHeightParamTemplate="{StaticResource WidthAndHeightParamTemplate}" />
     </UserControl.Resources>
 
     <Grid Margin="10">

@@ -24,6 +24,7 @@ internal class ActionFactory
     {
         Register(() => new RotateAction());
         Register(() => new FlipAction());
+        Register(() => new ResizeAction());
         Register(() => new TrimAction());
         Register(() => new FilterAction());
         Register(() => new BorderAction());
