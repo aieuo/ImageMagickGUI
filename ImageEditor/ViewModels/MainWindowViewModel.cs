@@ -23,10 +23,6 @@ public partial class MainWindowViewModel : ObservableObject
     [ObservableProperty]
     private bool _isPopupOpen;
 
-    public List<Action> Actions { get; }
-
-    public ObservableCollection<Action> AddedActions { get; }
-
     [ObservableProperty]
     private Action? _selectedAction = null;
 
@@ -34,13 +30,16 @@ public partial class MainWindowViewModel : ObservableObject
     private Visibility _loadImageButtonVisibility = Visibility.Visible;
 
     [ObservableProperty]
-    private Image _image = new();
-
-    [ObservableProperty]
     private string _sidePanelFooterMessage = "";
     
     [ObservableProperty]
     private string _imagePanelFooterRightMessage = "";
+    
+    public List<Action> Actions { get; }
+
+    public ObservableCollection<Action> AddedActions { get; }
+
+    public Image Image { get; } = new();
 
     public ImageDragDropHandler ImageDragDropHandler { get; private set; }
     public ActionDragDropHandler ActionDragDropHandler { get; private set; }
@@ -86,12 +85,6 @@ public partial class MainWindowViewModel : ObservableObject
         action.PropertyChanged += (_, _) => OnUpdateAction();
 
         SidePanelFooterMessage = "追加しました";
-    }
-
-    private void OnUpdateAction()
-    {
-        SidePanelFooterMessage = "";
-        RequestProcessImage();
     }
 
     [RelayCommand]
@@ -163,6 +156,12 @@ public partial class MainWindowViewModel : ObservableObject
         }
 
         SidePanelFooterMessage = "読み込みました";
+    }
+
+    private void OnUpdateAction()
+    {
+        SidePanelFooterMessage = "";
+        RequestProcessImage();
     }
 
     [RelayCommand]

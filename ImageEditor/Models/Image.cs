@@ -50,7 +50,7 @@ public partial class Image : ObservableObject
         await Task.Run(() =>
         {
             var tmp = (MagickImage)OriginalImage.Clone();
-            foreach (var action in actions)
+            foreach (var action in actions.ToList())
             {
                 action.ProcessImage(tmp);
             }
