@@ -24,7 +24,7 @@
 
                 <Slider Grid.Column="0"
                         Minimum="1"
-                        Maximum="100"
+                        Maximum="200"
                         Value="{Binding Value.Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                         TickFrequency="1"
                         IsSnapToTickEnabled="True"
