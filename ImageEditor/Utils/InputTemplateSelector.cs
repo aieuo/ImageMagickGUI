@@ -6,12 +6,12 @@ namespace ImageEditor.Utils;
 
 internal class InputTemplateSelector : DataTemplateSelector
 {
-    public DataTemplate FloatParamTemplate { get; set; }
-    public DataTemplate IntParamTemplate { get; set; }
-    public DataTemplate EnumParamTemplate { get; set; }
-    public DataTemplate ColorParamTemplate { get; set; }
-    public DataTemplate ScaleParamTemplate { get; set; }
-    public DataTemplate WidthAndHeightParamTemplate { get; set; }
+    public DataTemplate FloatParamTemplate { get; set; } = null!;
+    public DataTemplate IntParamTemplate { get; set; } = null!;
+    public DataTemplate EnumParamTemplate { get; set; } = null!;
+    public DataTemplate ColorParamTemplate { get; set; } = null!;
+    public DataTemplate ScaleParamTemplate { get; set; } = null!;
+    public DataTemplate WidthAndHeightParamTemplate { get; set; } = null!;
 
     public override DataTemplate SelectTemplate(object? item, DependencyObject container)
     {
@@ -23,7 +23,7 @@ internal class InputTemplateSelector : DataTemplateSelector
             ColorParameter => ColorParamTemplate,
             ScaleParameter => ScaleParamTemplate,
             WidthAndHeightParameter => WidthAndHeightParamTemplate,
-            _ => base.SelectTemplate(item, container)
+            _ => throw new NotImplementedException(),
         };
     }
 }
