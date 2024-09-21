@@ -38,6 +38,20 @@
                     <Image Margin="300"
                            Source="{Binding Image.OriginalImage, Converter={StaticResource MagickImageConverter}}" />
                 </zp:ZoomPanelScrollViewer>
+                <Grid Grid.Column="0">
+                    <TextBlock HorizontalAlignment="Left"
+                               VerticalAlignment="Bottom"
+                               Margin="5">
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="{} Original ({0} x {1})">
+                                <Binding Path="Image.OriginalImage.Width"
+                                         FallbackValue="-" />
+                                <Binding Path="Image.OriginalImage.Height"
+                                         FallbackValue="-" />
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                </Grid>
 
                 <zp:ZoomPanelScrollViewer Grid.Column="1"
                                           HorizontalScrollBarVisibility="Hidden"
@@ -46,6 +60,20 @@
                     <Image Margin="300"
                            Source="{Binding Image.ProcessedImage, Converter={StaticResource MagickImageConverter}}" />
                 </zp:ZoomPanelScrollViewer>
+                <Grid Grid.Column="1">
+                    <TextBlock HorizontalAlignment="Left"
+                               VerticalAlignment="Bottom"
+                               Margin="5">
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="{} Processed ({0} x {1})">
+                                <Binding Path="Image.ProcessedImage.Width"
+                                         FallbackValue="-" />
+                                <Binding Path="Image.ProcessedImage.Height"
+                                         FallbackValue="-" />
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                </Grid>
 
                 <Button Grid.Column="0" Grid.ColumnSpan="2"
                         Command="{Binding LoadImageCommand}"
