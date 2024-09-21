@@ -8,7 +8,7 @@
              xmlns:zp="https://github.com/Moravuscz/WPFZoomPanel"
              xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
              mc:Ignorable="d"
-             d:DesignHeight="695" d:DesignWidth="1030"
+             d:DesignHeight="695" d:DesignWidth="1000"
              d:DataContext="{d:DesignInstance vm:MainWindowViewModel}">
 
     <UserControl.Resources>

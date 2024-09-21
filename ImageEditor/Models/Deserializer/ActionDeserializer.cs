@@ -50,7 +50,9 @@ public class ActionDeserializer
         Add("Crop", parameters => new CropAction(
             new Scale(float.Parse(parameters[0])),
             new Scale(float.Parse(parameters[1])),
-            (Gravity)Enum.Parse(typeof(Gravity), parameters[2])
+            new Scale(float.Parse(parameters[2])),
+            new Scale(float.Parse(parameters[3])),
+            (Gravity)Enum.Parse(typeof(Gravity), parameters[4])
         ));
         Add("Trim", parameters => new TrimAction(
             float.Parse(parameters[0])

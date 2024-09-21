@@ -10,7 +10,7 @@
              xmlns:cpl="clr-namespace:ColorPickerLib.Controls;assembly=ColorPickerLib"
              xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
              mc:Ignorable="d"
-             d:DesignHeight="695" d:DesignWidth="250"
+             d:DesignHeight="695" d:DesignWidth="280"
              d:DataContext="{d:DesignInstance vm:MainWindowViewModel}">
 
     <UserControl.Resources>
@@ -37,6 +37,27 @@
                          Text="{Binding Value.Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
 
                 <ComboBox Grid.Column="2"
+                          Margin="5,0,0,0"
+                          ItemsSource="{Binding Options}"
+                          SelectedValue="{Binding Value.Type, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                          SelectedValuePath="Key" DisplayMemberPath="Value"
+                          HorizontalAlignment="Stretch" />
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="PositionParameterInputs">
+            <Grid d:DataContext="{d:DesignInstance params:ScaleParameter}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="45" />
+                </Grid.ColumnDefinitions>
+
+                <TextBox Grid.Column="0"
+                         Margin="5,0,0,0"
+                         HorizontalAlignment="Stretch"
+                         Text="{Binding Value.Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+
+                <ComboBox Grid.Column="1"
                           Margin="5,0,0,0"
                           ItemsSource="{Binding Options}"
                           SelectedValue="{Binding Value.Type, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
@@ -164,7 +185,7 @@
                             <ColumnDefinition Width="25" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        
+
                         <TextBlock Text="{Binding Width.Description}" Margin="0,0,0,2" />
                         <ContentControl Grid.Column="1"
                                         ContentTemplate="{StaticResource ScaleParameterInputs}"
@@ -176,11 +197,49 @@
                             <ColumnDefinition Width="25" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        
+
                         <TextBlock Text="{Binding Height.Description}" Margin="0,0,0,2" />
                         <ContentControl Grid.Column="1"
                                         ContentTemplate="{StaticResource ScaleParameterInputs}"
                                         Content="{Binding Height}" />
+                    </Grid>
+                </Grid>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="PositionParamTemplate"
+                      DataType="{x:Type params:PositionParameter}">
+            <StackPanel>
+                <TextBlock Text="{Binding Description}" Margin="0,0,0,2" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="25" />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Column="0" Margin="0,0,3,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="{Binding X.Description}" Margin="0,0,0,2" />
+                        <ContentControl Grid.Column="1"
+                                        ContentTemplate="{StaticResource PositionParameterInputs}"
+                                        Content="{Binding X}" />
+                    </Grid>
+
+                    <Grid Grid.Column="1" Margin="3,0,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="{Binding Y.Description}" Margin="0,0,0,2" />
+                        <ContentControl Grid.Column="1"
+                                        ContentTemplate="{StaticResource PositionParameterInputs}"
+                                        Content="{Binding Y}" />
                     </Grid>
                 </Grid>
             </StackPanel>
@@ -193,7 +252,8 @@
             EnumParamTemplate="{StaticResource EnumParamTemplate}"
             ColorParamTemplate="{StaticResource ColorParamTemplate}"
             ScaleParamTemplate="{StaticResource ScaleParamTemplate}"
-            WidthAndHeightParamTemplate="{StaticResource WidthAndHeightParamTemplate}" />
+            WidthAndHeightParamTemplate="{StaticResource WidthAndHeightParamTemplate}"
+            PositionParamTemplate="{StaticResource PositionParamTemplate}" />
     </UserControl.Resources>
 
     <Grid Margin="10">
@@ -213,7 +273,7 @@
             </Button>
 
             <Popup PlacementTarget="{Binding ElementName=ButtonGroup}" Placement="Bottom"
-                   HorizontalOffset="-35" VerticalOffset="-2"
+                   HorizontalOffset="-5" VerticalOffset="-2"
                    IsOpen="{Binding IsPopupOpen}"
                    AllowsTransparency="True" StaysOpen="False"
                    Width="200" Height="180">

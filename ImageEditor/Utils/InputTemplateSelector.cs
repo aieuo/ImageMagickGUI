@@ -12,6 +12,7 @@ internal class InputTemplateSelector : DataTemplateSelector
     public DataTemplate ColorParamTemplate { get; set; } = null!;
     public DataTemplate ScaleParamTemplate { get; set; } = null!;
     public DataTemplate WidthAndHeightParamTemplate { get; set; } = null!;
+    public DataTemplate PositionParamTemplate { get; set; } = null!;
 
     public override DataTemplate SelectTemplate(object? item, DependencyObject container)
     {
@@ -23,6 +24,7 @@ internal class InputTemplateSelector : DataTemplateSelector
             ColorParameter => ColorParamTemplate,
             ScaleParameter => ScaleParamTemplate,
             WidthAndHeightParameter => WidthAndHeightParamTemplate,
+            PositionParameter => PositionParamTemplate,
             _ => throw new NotImplementedException(),
         };
     }
