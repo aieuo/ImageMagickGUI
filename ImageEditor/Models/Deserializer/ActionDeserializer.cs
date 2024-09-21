@@ -1,5 +1,6 @@
 using System.Windows.Media;
 using ImageEditor.Models.Actions;
+using ImageEditor.Models.Actions.Parameters;
 using ImageMagick;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -29,22 +30,27 @@ public class ActionDeserializer
 
     private void Init()
     {
-        Add("Rotate", parameters =>
-        {
-            Console.WriteLine(parameters);
-            return new RotateAction(
-                float.Parse(parameters[0]),
-                (Color)ColorConverter.ConvertFromString(parameters[1])
-            );
-        });
+        Add("Rotate", parameters => new RotateAction(
+            float.Parse(parameters[0]),
+            (Color)ColorConverter.ConvertFromString(parameters[1])
+        ));
         Add("Flip", parameters => new FlipAction(
             (FlipAction.FlipType)Enum.Parse(typeof(FlipAction.FlipType), parameters[0])
+        ));
+        Add("Resize", parameters => new ResizeAction(
+            new Scale(float.Parse(parameters[0])),
+            new Scale(float.Parse(parameters[1]))
         ));
         Add("Trim", parameters => new TrimAction(
             float.Parse(parameters[0])
         ));
         Add("Filter", parameters => new FilterAction(
             (FilterAction.FilterType)Enum.Parse(typeof(FilterAction.FilterType), parameters[0])
+        ));
+        Add("Border", parameters => new BorderAction(
+            int.Parse(parameters[0]),
+            int.Parse(parameters[1]),
+            (Color)ColorConverter.ConvertFromString(parameters[2])
         ));
     }
 
