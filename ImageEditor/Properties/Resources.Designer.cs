@@ -63,6 +63,16 @@ namespace ImageEditor.Properties {
         /// <summary>
         ///   型 System.Byte[] のローカライズされたリソースを検索します。
         /// </summary>
+        internal static byte[] boundary {
+            get {
+                object obj = ResourceManager.GetObject("boundary", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Byte[] のローカライズされたリソースを検索します。
+        /// </summary>
         internal static byte[] cut {
             get {
                 object obj = ResourceManager.GetObject("cut", resourceCulture);

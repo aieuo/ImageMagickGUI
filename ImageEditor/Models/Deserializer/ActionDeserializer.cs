@@ -41,6 +41,12 @@ public class ActionDeserializer
             new Scale(float.Parse(parameters[0])),
             new Scale(float.Parse(parameters[1]))
         ));
+        Add("Extent", parameters => new ExtentAction(
+            new Scale(float.Parse(parameters[0])),
+            new Scale(float.Parse(parameters[1])),
+            (Color)ColorConverter.ConvertFromString(parameters[2]),
+            (Gravity)Enum.Parse(typeof(Gravity), parameters[3])
+        ));
         Add("Trim", parameters => new TrimAction(
             float.Parse(parameters[0])
         ));
