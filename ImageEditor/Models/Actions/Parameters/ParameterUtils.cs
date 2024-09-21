@@ -17,27 +17,26 @@ public static class ParameterUtils
         { Gravity.Southeast, "右下" },
     };
     
-    public static MagickGeometry WidthAndHeightParameterToGeometry(WidthAndHeightParameter parameter, double imageWidth,
-        double imageHeight)
+    public static MagickGeometry WidthAndHeightParameterToGeometry(WidthAndHeightParameter parameter, double imageWidth, double imageHeight)
     {
         var width = parameter.Width.Value;
         var height = parameter.Height.Value;
 
-        return width.Type switch
+        var geometry = width.Type switch
         {
             Scale.ScaleType.Percent when height.Type == Scale.ScaleType.Percent =>
                 new MagickGeometry(new Percentage(width.Value), new Percentage(height.Value)),
             Scale.ScaleType.Pixel when height.Type == Scale.ScaleType.Pixel =>
-                new MagickGeometry(
-                    new Percentage(width.Value / imageWidth * 100),
-                    new Percentage(height.Value / imageHeight * 100)
-                ),
+                new MagickGeometry((uint)width.Value, (uint)height.Value),
             Scale.ScaleType.Percent when height.Type == Scale.ScaleType.Pixel =>
-                new MagickGeometry(new Percentage(width.Value), new Percentage(height.Value / imageHeight * 100)),
+                new MagickGeometry((uint)(imageWidth * width.Value / 100), (uint)height.Value),
             Scale.ScaleType.Pixel when height.Type == Scale.ScaleType.Percent =>
-                new MagickGeometry(new Percentage(width.Value / imageWidth * 100), new Percentage(height.Value)),
+                new MagickGeometry((uint)width.Value, (uint)(imageHeight * height.Value / 100)),
             _ => throw new ArgumentException()
         };
+        geometry.IgnoreAspectRatio = true;
+        
+        return geometry;
     }
 
     public static MagickColor ColorParameterToMagickColor(ColorParameter parameter)
