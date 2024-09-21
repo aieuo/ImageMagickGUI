@@ -7,4 +7,5 @@
 <a href="https://www.flaticon.com/free-icons/photo-editing" title="photo editing icons">Photo editing icons created by Freepik - Flaticon</a>  
 <a href="https://www.flaticon.com/free-icons/crop" title="crop icons">Crop icons created by Revicon - Flaticon</a>  
 <a href="https://www.flaticon.com/free-icons/extent" title="extent icons">Extent icons created by Three musketeers - Flaticon</a>  
+<a href="https://www.flaticon.com/free-icons/crop" title="crop icons">Crop icons created by Ilham Fitrotul Hayat - Flaticon</a>  
 

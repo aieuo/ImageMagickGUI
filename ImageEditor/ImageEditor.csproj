@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <None Remove="Resources\boundary.png" />
+    <None Remove="Resources\crop.png" />
     <None Remove="Resources\cut.png" />
     <None Remove="Resources\dot-square.png" />
     <None Remove="Resources\flip.png" />
@@ -24,6 +25,7 @@
 
   <ItemGroup>
     <Resource Include="Resources\boundary.png" />
+    <Resource Include="Resources\crop.png" />
     <Resource Include="Resources\cut.png" />
     <Resource Include="Resources\dot-square.png" />
     <Resource Include="Resources\flip.png" />

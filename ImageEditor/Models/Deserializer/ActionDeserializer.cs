@@ -47,6 +47,11 @@ public class ActionDeserializer
             (Color)ColorConverter.ConvertFromString(parameters[2]),
             (Gravity)Enum.Parse(typeof(Gravity), parameters[3])
         ));
+        Add("Crop", parameters => new CropAction(
+            new Scale(float.Parse(parameters[0])),
+            new Scale(float.Parse(parameters[1])),
+            (Gravity)Enum.Parse(typeof(Gravity), parameters[2])
+        ));
         Add("Trim", parameters => new TrimAction(
             float.Parse(parameters[0])
         ));

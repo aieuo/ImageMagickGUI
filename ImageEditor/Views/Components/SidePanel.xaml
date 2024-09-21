@@ -231,7 +231,7 @@
                                     <WrapPanel Width="180">
                                         <WrapPanel.Resources>
                                             <Style TargetType="{x:Type Button}">
-                                                <Setter Property="Margin" Value="3,0" />
+                                                <Setter Property="Margin" Value="3,3" />
                                             </Style>
                                         </WrapPanel.Resources>
                                     </WrapPanel>
