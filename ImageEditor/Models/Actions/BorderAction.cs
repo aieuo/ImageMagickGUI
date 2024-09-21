@@ -29,9 +29,9 @@ internal class BorderAction : Action
     {
         var width = GetParameter<IntParameter>("width").Value;
         var height = GetParameter<IntParameter>("height").Value;
-        var color = GetParameter<ColorParameter>("color").Value;
+        var color = ParameterUtils.ColorParameterToMagickColor(GetParameter<ColorParameter>("color"));
 
-        image.BorderColor = new MagickColor(color.R, color.G, color.B, color.A);
+        image.BorderColor = color;
         image.Border((uint)width, (uint)height);
     }
 }

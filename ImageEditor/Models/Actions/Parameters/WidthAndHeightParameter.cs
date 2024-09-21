@@ -8,6 +8,16 @@ public class WidthAndHeightParameter : ActionParameter<WidthAndHeight>
 
     public ScaleParameter Height => Value.Value;
 
+    public WidthAndHeightParameter(string name, string description, Scale width, Scale height)
+        : this(
+            name,
+            description,
+            new ScaleParameter("width", "横幅", width),
+            new ScaleParameter("height", "高さ", height)
+        )
+    {
+    }
+
     public WidthAndHeightParameter(string name, string description, ScaleParameter width, ScaleParameter height)
         : base(name, description, new WidthAndHeight(width, height))
     {
