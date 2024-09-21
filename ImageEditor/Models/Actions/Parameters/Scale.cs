@@ -16,6 +16,11 @@ public partial class Scale(float value, Scale.ScaleType type = Scale.ScaleType.P
     [ObservableProperty]
     private ScaleType _type = type;
 
+    public float ToPixel(uint max)
+    {
+        return Type == ScaleType.Pixel ? Value : max * Value / 100;
+    }
+
     public override string ToString()
     {
         return $"{Value}{(Type == ScaleType.Percent ? "%" : "")}";

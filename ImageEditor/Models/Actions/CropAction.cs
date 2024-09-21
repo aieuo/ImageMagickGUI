@@ -33,12 +33,10 @@ internal class CropAction : Action
             image.Height
         );
         var offset = GetParameter<PositionParameter>("offset");
-        var offsetX = offset.X.Value;
-        var offsetY = offset.Y.Value;
         var gravity = GetParameter<EnumParameter<Gravity>>("gravity").Value;
 
-        size.X = (int)(offsetX.Type == Scale.ScaleType.Pixel ? offsetX.Value : image.Width * offsetX.Value / 100);
-        size.Y = (int)(offsetY.Type == Scale.ScaleType.Pixel ? offsetY.Value : image.Height * offsetY.Value / 100);
+        size.X = (int)offset.X.Value.ToPixel(image.Width);
+        size.Y = (int)offset.Y.Value.ToPixel(image.Height);
 
         image.Crop(size, gravity);
     }

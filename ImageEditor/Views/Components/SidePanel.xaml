@@ -23,10 +23,10 @@
                 </Grid.ColumnDefinitions>
 
                 <Slider Grid.Column="0"
-                        Minimum="1"
-                        Maximum="200"
+                        Minimum="{Binding MinValue}"
+                        Maximum="{Binding MaxValue}"
                         Value="{Binding Value.Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                        TickFrequency="1"
+                        TickFrequency="{Binding StepValue}"
                         IsSnapToTickEnabled="True"
                         IsMoveToPointEnabled="True"
                         HorizontalAlignment="Stretch" />
