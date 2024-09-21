@@ -61,8 +61,8 @@ public class ActionDeserializer
             (FilterAction.FilterType)Enum.Parse(typeof(FilterAction.FilterType), parameters[0])
         ));
         Add("Border", parameters => new BorderAction(
-            int.Parse(parameters[0]),
-            int.Parse(parameters[1]),
+            new Scale(float.Parse(parameters[0])),
+            new Scale(float.Parse(parameters[1])),
             (Color)ColorConverter.ConvertFromString(parameters[2])
         ));
     }

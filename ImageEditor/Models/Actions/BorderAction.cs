@@ -14,21 +14,21 @@ internal class BorderAction : Action
 
     public override string IconPath => "../../Resources/dot-square.png";
 
-    internal BorderAction(int width = 10, int height = 10) : this(width, height, Colors.Black)
+    internal BorderAction(int width = 10, int height = 10) : this(new Scale(width, Scale.ScaleType.Pixel), new Scale(height, Scale.ScaleType.Pixel), Colors.Black)
     {
     }
 
-    internal BorderAction(int width, int height, Color color)
+    internal BorderAction(Scale width, Scale height, Color color)
     {
-        AddParameter(new IntParameter("width", "枠線の幅", width, 0, 100));
-        AddParameter(new IntParameter("height", "枠線の高さ", height, 0, 100));
+        AddParameter(new ScaleParameter("width", "枠線の幅", width, 0, 100));
+        AddParameter(new ScaleParameter("height", "枠線の高さ", height, 0, 100));
         AddParameter(new ColorParameter("color", "余白の色", color));
     }
 
     public override void ProcessImage(MagickImage image)
     {
-        var width = GetParameter<IntParameter>("width").Value;
-        var height = GetParameter<IntParameter>("height").Value;
+        var width = GetParameter<ScaleParameter>("width").Value.ToPixel(image.Width);
+        var height = GetParameter<ScaleParameter>("height").Value.ToPixel(image.Height);
         var color = ParameterUtils.ColorParameterToMagickColor(GetParameter<ColorParameter>("color"));
 
         image.BorderColor = color;
