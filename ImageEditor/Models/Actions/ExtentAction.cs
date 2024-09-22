@@ -20,7 +20,7 @@ internal class ExtentAction : Action
 
     internal ExtentAction(Scale width, Scale height, Color color, Gravity type = Gravity.Center)
     {
-        AddParameter(new WidthAndHeightParameter("size", "サイズ", width, height));
+        AddParameter(new WidthAndHeightParameter("size", "画像サイズ", width, height));
         AddParameter(new ColorParameter("color", "余白の色", color));
         AddParameter(new EnumParameter<Gravity>("gravity", "基準点", type, ParameterUtils.GravityOptions));
     }
