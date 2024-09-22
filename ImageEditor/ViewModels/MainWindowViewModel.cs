@@ -338,7 +338,7 @@ public partial class MainWindowViewModel : ObservableObject
             {
                 Image.Process(AddedActions).Wait();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 ImagePanelFooterRightMessage = "画像処理中にエラーが発生しました";
             }
