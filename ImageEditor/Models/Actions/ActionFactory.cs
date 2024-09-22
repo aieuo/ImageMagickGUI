@@ -31,6 +31,9 @@ internal class ActionFactory
         Register(() => new FilterAction());
         Register(() => new BorderAction());
         Register(() => new SetColorSpaceAction());
+        Register(() => new DrawRectangleAction());
+        Register(() => new DrawEllipseAction());
+        Register(() => new DrawTextAction());
     }
 
     public void Register(Func<Action> actionCreator)

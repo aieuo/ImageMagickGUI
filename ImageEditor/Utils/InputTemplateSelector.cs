@@ -8,6 +8,7 @@ internal class InputTemplateSelector : DataTemplateSelector
 {
     public DataTemplate FloatParamTemplate { get; set; } = null!;
     public DataTemplate IntParamTemplate { get; set; } = null!;
+    public DataTemplate StringParamTemplate { get; set; } = null!;
     public DataTemplate EnumParamTemplate { get; set; } = null!;
     public DataTemplate ColorParamTemplate { get; set; } = null!;
     public DataTemplate ScaleParamTemplate { get; set; } = null!;
@@ -20,6 +21,7 @@ internal class InputTemplateSelector : DataTemplateSelector
         {
             FloatParameter => FloatParamTemplate,
             IntParameter => IntParamTemplate,
+            StringParameter => StringParamTemplate,
             EnumParameter => EnumParamTemplate,
             ColorParameter => ColorParamTemplate,
             ScaleParameter => ScaleParamTemplate,

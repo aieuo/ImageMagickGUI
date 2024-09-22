@@ -122,6 +122,25 @@
             </StackPanel>
         </DataTemplate>
 
+        <DataTemplate x:Key="StringParamTemplate"
+                      DataType="{x:Type params:StringParameter}">
+            <StackPanel>
+                <TextBlock Text="{Binding Description}" Margin="0,0,0,2" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBox Grid.Column="0"
+                             Margin="5,0,0,0"
+                             HorizontalAlignment="Stretch"
+                             TextWrapping="Wrap"
+                             AcceptsReturn="True"
+                             Text="{Binding Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                </Grid>
+            </StackPanel>
+        </DataTemplate>
+
         <DataTemplate x:Key="EnumParamTemplate"
                       DataType="{x:Type params:EnumParameter}">
             <StackPanel>
@@ -250,6 +269,7 @@
             x:Key="InputTemplateSelector"
             FloatParamTemplate="{StaticResource FloatParamTemplate}"
             IntParamTemplate="{StaticResource IntParamTemplate}"
+            StringParamTemplate="{StaticResource StringParamTemplate}"
             EnumParamTemplate="{StaticResource EnumParamTemplate}"
             ColorParamTemplate="{StaticResource ColorParamTemplate}"
             ScaleParamTemplate="{StaticResource ScaleParamTemplate}"

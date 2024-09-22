@@ -157,4 +157,13 @@
   <data name="color" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\color.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="rectangular-shape-outline" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\rectangular-shape-outline.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ellipse-outline-shape-variant" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ellipse-outline-shape-variant.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="text-formatting" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text-formatting.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

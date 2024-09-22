@@ -113,6 +113,16 @@ namespace ImageEditor.Properties {
         /// <summary>
         ///   型 System.Byte[] のローカライズされたリソースを検索します。
         /// </summary>
+        internal static byte[] ellipse_outline_shape_variant {
+            get {
+                object obj = ResourceManager.GetObject("ellipse-outline-shape-variant", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Byte[] のローカライズされたリソースを検索します。
+        /// </summary>
         internal static byte[] flip {
             get {
                 object obj = ResourceManager.GetObject("flip", resourceCulture);
@@ -173,6 +183,16 @@ namespace ImageEditor.Properties {
         /// <summary>
         ///   型 System.Byte[] のローカライズされたリソースを検索します。
         /// </summary>
+        internal static byte[] rectangular_shape_outline {
+            get {
+                object obj = ResourceManager.GetObject("rectangular-shape-outline", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Byte[] のローカライズされたリソースを検索します。
+        /// </summary>
         internal static byte[] resolution {
             get {
                 object obj = ResourceManager.GetObject("resolution", resourceCulture);
@@ -186,6 +206,16 @@ namespace ImageEditor.Properties {
         internal static byte[] rotation {
             get {
                 object obj = ResourceManager.GetObject("rotation", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Byte[] のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static byte[] text_formatting {
+            get {
+                object obj = ResourceManager.GetObject("text-formatting", resourceCulture);
                 return ((byte[])(obj));
             }
         }

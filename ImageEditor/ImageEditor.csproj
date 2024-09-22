@@ -14,14 +14,17 @@
     <None Remove="Resources\crop.png" />
     <None Remove="Resources\cut.png" />
     <None Remove="Resources\dot-square.png" />
+    <None Remove="Resources\ellipse-outline-shape-variant.png" />
     <None Remove="Resources\flip.png" />
     <None Remove="Resources\iconmonstr-folder-open-thin-16.png" />
     <None Remove="Resources\iconmonstr-save-14-16.png" />
     <None Remove="Resources\minus.png" />
     <None Remove="Resources\photo-filter.png" />
     <None Remove="Resources\plus.png" />
+    <None Remove="Resources\rectangular-shape-outline.png" />
     <None Remove="Resources\resolution.png" />
     <None Remove="Resources\rotation.png" />
+    <None Remove="Resources\text-formatting.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -30,14 +33,17 @@
     <Resource Include="Resources\crop.png" />
     <Resource Include="Resources\cut.png" />
     <Resource Include="Resources\dot-square.png" />
+    <Resource Include="Resources\ellipse-outline-shape-variant.png" />
     <Resource Include="Resources\flip.png" />
     <Resource Include="Resources\iconmonstr-folder-open-thin-16.png" />
     <Resource Include="Resources\iconmonstr-save-14-16.png" />
     <Resource Include="Resources\minus.png" />
     <Resource Include="Resources\photo-filter.png" />
     <Resource Include="Resources\plus.png" />
+    <Resource Include="Resources\rectangular-shape-outline.png" />
     <Resource Include="Resources\resolution.png" />
     <Resource Include="Resources\rotation.png" />
+    <Resource Include="Resources\text-formatting.png" />
   </ItemGroup>
 
   <ItemGroup>

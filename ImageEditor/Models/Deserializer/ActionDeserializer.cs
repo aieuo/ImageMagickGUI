@@ -68,6 +68,27 @@ public class ActionDeserializer
         Add("SetColorSpace", parameters => new SetColorSpaceAction(
             (ColorSpace)Enum.Parse(typeof(ColorSpace), parameters[0])
         ));
+        Add("Rectangle", parameters => new DrawRectangleAction(
+            new Scale(float.Parse(parameters[0])),
+            new Scale(float.Parse(parameters[1])),
+            new Scale(float.Parse(parameters[2])),
+            new Scale(float.Parse(parameters[3])),
+            (Color)ColorConverter.ConvertFromString(parameters[4])
+        ));
+        Add("Ellipse", parameters => new DrawEllipseAction(
+            new Scale(float.Parse(parameters[0])),
+            new Scale(float.Parse(parameters[1])),
+            new Scale(float.Parse(parameters[2])),
+            new Scale(float.Parse(parameters[3])),
+            (Color)ColorConverter.ConvertFromString(parameters[4])
+        ));
+        Add("Text", parameters => new DrawTextAction(
+            parameters[0],
+            float.Parse(parameters[1]),
+            new Scale(float.Parse(parameters[2])),
+            new Scale(float.Parse(parameters[3])),
+            (Color)ColorConverter.ConvertFromString(parameters[4])
+        ));
     }
 
     public void Add(string name, Func<string[], Action> deserializer)
