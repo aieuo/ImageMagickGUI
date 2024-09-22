@@ -14,7 +14,7 @@ internal class BorderAction : Action
 
     public override string IconPath => "../../Resources/dot-square.png";
 
-    internal BorderAction(int width = 10, int height = 10) : this(new Scale(width, Scale.ScaleType.Pixel), new Scale(height, Scale.ScaleType.Pixel), Colors.Black)
+    internal BorderAction(int width = 10, int height = 10) : this(Scale.Pixel(width), Scale.Pixel(height), Colors.Black)
     {
     }
 
