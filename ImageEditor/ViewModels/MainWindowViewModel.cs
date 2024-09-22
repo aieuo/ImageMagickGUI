@@ -332,7 +332,17 @@ public partial class MainWindowViewModel : ObservableObject
 
     private void RequestProcessImage()
     {
-        _actionUpdateDebouncer.Debounce(() => Image.Process(AddedActions));
+        _actionUpdateDebouncer.Debounce(() =>
+        {
+            try
+            {
+                Image.Process(AddedActions).Wait();
+            }
+            catch (Exception e)
+            {
+                ImagePanelFooterRightMessage = "画像処理中にエラーが発生しました";
+            }
+        });
     }
 
     [RelayCommand]

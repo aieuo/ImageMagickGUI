@@ -40,7 +40,7 @@ public partial class Image : ObservableObject
         IsChanged = false;
     }
 
-    public async void Process(ICollection<Actions.Action> actions)
+    public async Task Process(ICollection<Actions.Action> actions)
     {
         if (OriginalImage == null) return;
 
@@ -52,24 +52,29 @@ public partial class Image : ObservableObject
 
         IsProcessingImage = true;
 
-        await Task.Run(() =>
+        try
         {
-            var tmp = (MagickImage)OriginalImage.Clone();
-            foreach (var action in actions.ToList())
+            await Task.Run(() =>
             {
-                action.ProcessImage(tmp);
-                IsChanged = true;
-            }
+                var tmp = (MagickImage)OriginalImage.Clone();
+                foreach (var action in actions.ToList())
+                {
+                    action.ProcessImage(tmp);
+                    IsChanged = true;
+                }
 
-            ProcessedImage = tmp;
-        });
-
-        IsProcessingImage = false;
+                ProcessedImage = tmp;
+            });
+        }
+        finally
+        {
+            IsProcessingImage = false;
+        }
 
         if (_shouldReProcessImage)
         {
             _shouldReProcessImage = false;
-            Process(actions);
+            await Process(actions);
         }
     }
 }
