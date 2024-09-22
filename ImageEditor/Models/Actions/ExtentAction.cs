@@ -8,9 +8,9 @@ internal class ExtentAction : Action
 {
     public override string Name => "Extent";
 
-    public override string Description => "画像に余白を追加する";
+    public override string Description => "キャンバスを拡大する";
 
-    public override string FormatedString => "画像に余白を追加する";
+    public override string FormatedString => "キャンバスを拡大する";
 
     public override string IconPath => "../../Resources/boundary.png";
 
