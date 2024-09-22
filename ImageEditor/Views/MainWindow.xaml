@@ -10,7 +10,7 @@
         mc:Ignorable="d"
         DataContext="{Binding Source={StaticResource Locator}, Path=MainWindow}"
         Title="ImageEditor" Height="720" Width="1280">
-    
+
     <Window.InputBindings>
         <KeyBinding Gesture="Ctrl+S" Command="{Binding SaveAllCommand}"/>
     </Window.InputBindings>
@@ -25,44 +25,45 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="25" />
         </Grid.RowDefinitions>
-        
+
         <DockPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="ファイル">
                     <MenuItem Header="画像を読み込む"
-                              Command="{Binding LoadImageCommand}"/>
+                              Command="{Binding LoadImageCommand}" />
                     <MenuItem Header="画像を名前を付けて保存する"
                               Command="{Binding SaveImageCommand}"
-                              CommandParameter="New"/>
+                              CommandParameter="New" />
                     <MenuItem Header="画像を上書き保存する"
                               Command="{Binding SaveImageCommand}"
-                              CommandParameter="Override"/>
+                              CommandParameter="Override" />
                     <Separator></Separator>
                     <MenuItem Header="操作を読み込む"
-                              Command="{Binding LoadActionsCommand}"/>
+                              Command="{Binding LoadActionsCommand}" />
                     <MenuItem Header="操作を名前を付けて保存する"
                               Command="{Binding SaveActionsCommand}"
-                              CommandParameter="New"/>
+                              CommandParameter="New" />
                     <MenuItem Header="操作を上書き保存する"
                               Command="{Binding SaveActionsCommand}"
-                              CommandParameter="Override"/>
+                              CommandParameter="Override" />
                     <Separator></Separator>
                     <MenuItem Header="全て上書き保存する"
                               Command="{Binding SaveAllCommand}"
-                              InputGestureText="Ctrl+S"/>
+                              InputGestureText="Ctrl+S" />
                 </MenuItem>
-                <MenuItem Header="ツール"/>
+                <MenuItem Header="ツール">
+                    <MenuItem Header="一括処理"
+                              Command="{Binding SaveAllCommand}" />
+                </MenuItem>
             </Menu>
-            <StackPanel>
-            </StackPanel>
         </DockPanel>
-        
+
         <components:SidePanel Grid.Row="1" Grid.Column="0" />
-        
+
         <components:ImagePanel Grid.Row="1" Grid.Column="1" />
-        
+
         <components:SidePanelFooter Grid.Row="2" Grid.Column="0" />
-        
+
         <components:ImagePanelFooter Grid.Row="2" Grid.Column="1" />
     </Grid>
 </Window>

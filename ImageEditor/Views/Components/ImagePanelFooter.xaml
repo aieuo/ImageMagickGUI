@@ -8,13 +8,7 @@
              d:DesignHeight="25" d:DesignWidth="1000"
              d:DataContext="{d:DesignInstance vm:MainWindowViewModel}">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="200"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-
-        <TextBlock Grid.Column="1"
-                   TextAlignment="Right"
+        <TextBlock TextAlignment="Right"
                    Text="{Binding ImagePanelFooterRightMessage}"
                    Margin="10,0" />
     </Grid>
