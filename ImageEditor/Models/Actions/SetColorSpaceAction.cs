@@ -28,7 +28,5 @@ internal class SetColorSpaceAction : Action
         var colorspace = GetParameter<EnumParameter<ColorSpace>>("colorspace").Value;
 
         image.ColorSpace = colorspace;
-        Console.WriteLine(colorspace);
-        Console.WriteLine(image.ColorSpace);
     }
 }
