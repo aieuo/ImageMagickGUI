@@ -68,7 +68,7 @@
 
         <DataTemplate x:Key="FloatParamTemplate"
                       DataType="{x:Type params:FloatParameter}">
-            <StackPanel>
+            <StackPanel Margin="0,2">
                 <TextBlock Text="{Binding Description}" Margin="0,0,0,2" />
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -96,7 +96,7 @@
 
         <DataTemplate x:Key="IntParamTemplate"
                       DataType="{x:Type params:IntParameter}">
-            <StackPanel>
+            <StackPanel Margin="0,2">
                 <TextBlock Text="{Binding Description}" Margin="0,0,0,2" />
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -124,7 +124,7 @@
 
         <DataTemplate x:Key="StringParamTemplate"
                       DataType="{x:Type params:StringParameter}">
-            <StackPanel>
+            <StackPanel Margin="0,2">
                 <TextBlock Text="{Binding Description}" Margin="0,0,0,2" />
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -143,7 +143,7 @@
 
         <DataTemplate x:Key="EnumParamTemplate"
                       DataType="{x:Type params:EnumParameter}">
-            <StackPanel>
+            <StackPanel Margin="0,2">
                 <TextBlock Text="{Binding Description}" Margin="0,0,0,2" />
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -161,7 +161,7 @@
 
         <DataTemplate x:Key="ColorParamTemplate"
                       DataType="{x:Type params:ColorParameter}">
-            <StackPanel>
+            <StackPanel Margin="0,2">
                 <TextBlock Text="{Binding Description}" Margin="0,0,0,2" />
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -179,7 +179,7 @@
 
         <DataTemplate x:Key="ScaleParamTemplate"
                       DataType="{x:Type params:ScaleParameter}">
-            <StackPanel>
+            <StackPanel Margin="0,2">
                 <TextBlock Text="{Binding Description}" Margin="0,0,0,2" />
                 <ContentControl ContentTemplate="{StaticResource ScaleParameterInputs}"
                                 Content="{Binding}" />
@@ -188,7 +188,7 @@
 
         <DataTemplate x:Key="WidthAndHeightParamTemplate"
                       DataType="{x:Type params:WidthAndHeightParameter}">
-            <StackPanel>
+            <StackPanel Margin="0,2">
                 <TextBlock Text="{Binding Description}" Margin="0,0,0,2" />
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -229,7 +229,7 @@
 
         <DataTemplate x:Key="PositionParamTemplate"
                       DataType="{x:Type params:PositionParameter}">
-            <StackPanel>
+            <StackPanel Margin="0,2">
                 <TextBlock Text="{Binding Description}" Margin="0,0,0,2" />
                 <Grid>
                     <Grid.ColumnDefinitions>
