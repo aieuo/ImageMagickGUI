@@ -24,6 +24,7 @@
     <None Remove="Resources\rectangular-shape-outline.png" />
     <None Remove="Resources\resolution.png" />
     <None Remove="Resources\rotation.png" />
+    <None Remove="Resources\shear.png" />
     <None Remove="Resources\text-formatting.png" />
   </ItemGroup>
 
@@ -43,6 +44,7 @@
     <Resource Include="Resources\rectangular-shape-outline.png" />
     <Resource Include="Resources\resolution.png" />
     <Resource Include="Resources\rotation.png" />
+    <Resource Include="Resources\shear.png" />
     <Resource Include="Resources\text-formatting.png" />
   </ItemGroup>
 

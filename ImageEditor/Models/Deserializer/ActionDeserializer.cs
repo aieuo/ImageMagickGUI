@@ -54,6 +54,11 @@ public class ActionDeserializer
             Scale.Parse(parameters[1].Split(", ")[1]),
             (Gravity)Enum.Parse(typeof(Gravity), parameters[2])
         ));
+        Add("Shear", parameters => new ShearAction(
+            float.Parse(parameters[0]),
+            float.Parse(parameters[1]),
+            (Color)ColorConverter.ConvertFromString(parameters[2])
+        ));
         Add("Trim", parameters => new TrimAction(
             float.Parse(parameters[0])
         ));

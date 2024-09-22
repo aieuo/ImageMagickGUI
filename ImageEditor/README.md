@@ -12,4 +12,5 @@
 <a href="https://www.flaticon.com/free-icons/rectangle" title="rectangle icons">Rectangle icons created by Freepik - Flaticon</a>  
 <a href="https://www.flaticon.com/free-icons/oval" title="oval icons">Oval icons created by Freepik - Flaticon</a>  
 <a href="https://www.flaticon.com/free-icons/font" title="font icons">Font icons created by Smashicons - Flaticon</a>  
+<a href="https://www.flaticon.com/free-icons/shift-image" title="shift image icons">Shift image icons created by iconsmind - Flaticon</a>  
 

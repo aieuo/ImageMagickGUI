@@ -28,6 +28,7 @@ internal class ActionFactory
         Register(() => new ExtentAction());
         Register(() => new CropAction());
         Register(() => new TrimAction());
+        Register(() => new ShearAction());
         Register(() => new FilterAction());
         Register(() => new BorderAction());
         Register(() => new DrawRectangleAction());
