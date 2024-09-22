@@ -32,7 +32,7 @@ internal class ExtentAction : Action
             image.Width,
             image.Height
         );
-        var color = ParameterUtils.ColorParameterToMagickColor(GetParameter<ColorParameter>("color"));
+        var color = ParameterUtils.ColorParameterToMagickColor(GetParameter<ColorParameter>("color"), image.ColorSpace);
         var gravity = GetParameter<EnumParameter<Gravity>>("gravity").Value;
 
         image.Extent(size, gravity, color);

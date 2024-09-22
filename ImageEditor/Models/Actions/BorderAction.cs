@@ -29,7 +29,7 @@ internal class BorderAction : Action
     {
         var width = GetParameter<ScaleParameter>("width").Value.ToPixel(image.Width);
         var height = GetParameter<ScaleParameter>("height").Value.ToPixel(image.Height);
-        var color = ParameterUtils.ColorParameterToMagickColor(GetParameter<ColorParameter>("color"));
+        var color = ParameterUtils.ColorParameterToMagickColor(GetParameter<ColorParameter>("color"), image.ColorSpace);
 
         image.BorderColor = color;
         image.Border((uint)width, (uint)height);

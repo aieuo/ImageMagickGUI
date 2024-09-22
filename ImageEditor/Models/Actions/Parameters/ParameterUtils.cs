@@ -39,9 +39,15 @@ public static class ParameterUtils
         return geometry;
     }
 
-    public static MagickColor ColorParameterToMagickColor(ColorParameter parameter)
+    public static MagickColor ColorParameterToMagickColor(ColorParameter parameter, ColorSpace space)
     {
         var color = parameter.Value;
-        return new MagickColor(color.R, color.G, color.B, color.A);
+        var rgbMagickColor = new MagickColor(color.R, color.G, color.B, color.A);
+
+        using var tmp = new MagickImage(rgbMagickColor, 1, 1);
+        Console.WriteLine(space);
+        tmp.ColorSpace = space;
+
+        return (MagickColor) tmp.GetPixels().GetPixel(0, 0).ToColor()!;
     }
 }

@@ -26,8 +26,8 @@ internal class RotateAction : Action
 
     public override void ProcessImage(MagickImage image)
     {
-        var color = GetParameter<ColorParameter>("color").Value;
-        image.BackgroundColor = new MagickColor(color.R, color.G, color.B, color.A);
+        var color = GetParameter<ColorParameter>("color");
+        image.BackgroundColor = ParameterUtils.ColorParameterToMagickColor(color, image.ColorSpace);
         image.Rotate(GetParameter<FloatParameter>("angle").Value);
     }
 }
