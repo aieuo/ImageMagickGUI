@@ -38,56 +38,58 @@ public class ActionDeserializer
             (FlipAction.FlipType)Enum.Parse(typeof(FlipAction.FlipType), parameters[0])
         ));
         Add("Resize", parameters => new ResizeAction(
-            new Scale(float.Parse(parameters[0])),
-            new Scale(float.Parse(parameters[1]))
+            Scale.Parse(parameters[0].Split("x")[0]),
+            Scale.Parse(parameters[0].Split("x")[1])
         ));
         Add("Extent", parameters => new ExtentAction(
-            new Scale(float.Parse(parameters[0])),
-            new Scale(float.Parse(parameters[1])),
-            (Color)ColorConverter.ConvertFromString(parameters[2]),
-            (Gravity)Enum.Parse(typeof(Gravity), parameters[3])
+            Scale.Parse(parameters[0].Split("x")[0]),
+            Scale.Parse(parameters[0].Split("x")[1]),
+            (Color)ColorConverter.ConvertFromString(parameters[1]),
+            (Gravity)Enum.Parse(typeof(Gravity), parameters[2])
         ));
         Add("Crop", parameters => new CropAction(
-            new Scale(float.Parse(parameters[0])),
-            new Scale(float.Parse(parameters[1])),
-            new Scale(float.Parse(parameters[2])),
-            new Scale(float.Parse(parameters[3])),
-            (Gravity)Enum.Parse(typeof(Gravity), parameters[4])
+            Scale.Parse(parameters[0].Split("x")[0]),
+            Scale.Parse(parameters[0].Split("x")[1]),
+            Scale.Parse(parameters[1].Split(", ")[0]),
+            Scale.Parse(parameters[1].Split(", ")[1]),
+            (Gravity)Enum.Parse(typeof(Gravity), parameters[2])
         ));
         Add("Trim", parameters => new TrimAction(
             float.Parse(parameters[0])
         ));
         Add("Filter", parameters => new FilterAction(
-            (FilterAction.FilterType)Enum.Parse(typeof(FilterAction.FilterType), parameters[0])
+            (FilterAction.FilterType)Enum.Parse(typeof(FilterAction.FilterType), parameters[0]),
+            float.Parse(parameters[1]),
+            float.Parse(parameters[2])
         ));
         Add("Border", parameters => new BorderAction(
-            new Scale(float.Parse(parameters[0])),
-            new Scale(float.Parse(parameters[1])),
+            Scale.Parse(parameters[0]),
+            Scale.Parse(parameters[1]),
             (Color)ColorConverter.ConvertFromString(parameters[2])
         ));
         Add("SetColorSpace", parameters => new SetColorSpaceAction(
             (ColorSpace)Enum.Parse(typeof(ColorSpace), parameters[0])
         ));
         Add("Rectangle", parameters => new DrawRectangleAction(
-            new Scale(float.Parse(parameters[0])),
-            new Scale(float.Parse(parameters[1])),
-            new Scale(float.Parse(parameters[2])),
-            new Scale(float.Parse(parameters[3])),
-            (Color)ColorConverter.ConvertFromString(parameters[4])
+            Scale.Parse(parameters[0].Split("x")[0]),
+            Scale.Parse(parameters[0].Split("x")[1]),
+            Scale.Parse(parameters[1].Split(", ")[0]),
+            Scale.Parse(parameters[1].Split(", ")[1]),
+            (Color)ColorConverter.ConvertFromString(parameters[2])
         ));
         Add("Ellipse", parameters => new DrawEllipseAction(
-            new Scale(float.Parse(parameters[0])),
-            new Scale(float.Parse(parameters[1])),
-            new Scale(float.Parse(parameters[2])),
-            new Scale(float.Parse(parameters[3])),
-            (Color)ColorConverter.ConvertFromString(parameters[4])
+            Scale.Parse(parameters[0].Split("x")[0]),
+            Scale.Parse(parameters[0].Split("x")[1]),
+            Scale.Parse(parameters[1].Split(", ")[0]),
+            Scale.Parse(parameters[1].Split(", ")[1]),
+            (Color)ColorConverter.ConvertFromString(parameters[2])
         ));
         Add("Text", parameters => new DrawTextAction(
             parameters[0],
             float.Parse(parameters[1]),
-            new Scale(float.Parse(parameters[2])),
-            new Scale(float.Parse(parameters[3])),
-            (Color)ColorConverter.ConvertFromString(parameters[4])
+            Scale.Parse(parameters[2].Split(", ")[0]),
+            Scale.Parse(parameters[2].Split(", ")[1]),
+            (Color)ColorConverter.ConvertFromString(parameters[3])
         ));
     }
 
@@ -95,7 +97,7 @@ public class ActionDeserializer
     {
         if (!_deserializers.TryAdd(name, deserializer))
         {
-            throw new ArgumentException($"Action {name} is already registered.");
+            throw new ArgumentException($"Action deserializer {name} is already registered.");
         }
     }
 

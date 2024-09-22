@@ -22,8 +22,8 @@ internal class DrawTextAction : Action
     internal DrawTextAction(string text, float fontSize, Scale x, Scale y, Color color)
     {
         AddParameter(new StringParameter("text", "テキスト", text));
-        AddParameter(new PositionParameter("position", "位置", x, y));
         AddParameter(new FloatParameter("fontSize", "フォントサイズ", fontSize, 1, 160));
+        AddParameter(new PositionParameter("position", "位置", x, y));
         AddParameter(new ColorParameter("color", "塗りつぶし色", color));
     }
 

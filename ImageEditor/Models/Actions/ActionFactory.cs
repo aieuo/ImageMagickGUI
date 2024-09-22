@@ -30,10 +30,10 @@ internal class ActionFactory
         Register(() => new TrimAction());
         Register(() => new FilterAction());
         Register(() => new BorderAction());
-        Register(() => new SetColorSpaceAction());
         Register(() => new DrawRectangleAction());
         Register(() => new DrawEllipseAction());
         Register(() => new DrawTextAction());
+        Register(() => new SetColorSpaceAction());
     }
 
     public void Register(Func<Action> actionCreator)

@@ -24,6 +24,11 @@ public partial class Scale(float value, Scale.ScaleType type = Scale.ScaleType.P
         return new Scale(value);
     }
 
+    public static Scale Parse(string value)
+    {
+        return value[^1] != '%' ? Pixel(float.Parse(value)) : Percent(float.Parse(value[..^1]));
+    }
+
     public float ToPixel(uint max)
     {
         return Type == ScaleType.Pixel ? Value : max * Value / 100;
