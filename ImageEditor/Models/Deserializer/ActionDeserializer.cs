@@ -65,6 +65,9 @@ public class ActionDeserializer
             new Scale(float.Parse(parameters[1])),
             (Color)ColorConverter.ConvertFromString(parameters[2])
         ));
+        Add("SetColorSpace", parameters => new SetColorSpaceAction(
+            (ColorSpace)Enum.Parse(typeof(ColorSpace), parameters[0])
+        ));
     }
 
     public void Add(string name, Func<string[], Action> deserializer)

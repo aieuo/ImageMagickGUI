@@ -8,4 +8,5 @@
 <a href="https://www.flaticon.com/free-icons/crop" title="crop icons">Crop icons created by Revicon - Flaticon</a>  
 <a href="https://www.flaticon.com/free-icons/extent" title="extent icons">Extent icons created by Three musketeers - Flaticon</a>  
 <a href="https://www.flaticon.com/free-icons/crop" title="crop icons">Crop icons created by Ilham Fitrotul Hayat - Flaticon</a>  
+<a href="https://www.flaticon.com/free-icons/color" title="color icons">Color icons created by Freepik - Flaticon</a>  
 
