@@ -218,6 +218,11 @@ public partial class MainWindowViewModel : ObservableObject
     [RelayCommand]
     private void LoadImage()
     {
+        if (!ConfirmImageLoad())
+        {
+            return;
+        }
+
         var settings = new OpenFileDialogSettings
         {
             Title = "画像を選択してください",
@@ -236,6 +241,11 @@ public partial class MainWindowViewModel : ObservableObject
 
     private void TryLoadImage(string path)
     {
+        if (!ConfirmImageLoad())
+        {
+            return;
+        }
+        
         try
         {
             Image.Load(path);
@@ -255,6 +265,22 @@ public partial class MainWindowViewModel : ObservableObject
 
         RequestProcessImage();
         LoadImageButtonVisibility = Visibility.Hidden;
+    }
+
+    private bool ConfirmImageLoad()
+    {
+        if (!Image.IsChanged)
+        {
+            return true;
+        }
+        
+        var result = _dialogService.ShowMessageBox(
+            this,
+            "保存されていない画像があります．\n読み込みますか?",
+            icon: MessageBoxImage.Warning,
+            button: MessageBoxButton.OKCancel
+        );
+        return result == MessageBoxResult.OK;
     }
 
     [RelayCommand]

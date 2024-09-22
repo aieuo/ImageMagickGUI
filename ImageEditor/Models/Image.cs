@@ -16,6 +16,9 @@ public partial class Image : ObservableObject
     private bool _isProcessingImage = false;
 
     private bool _shouldReProcessImage = false;
+
+    [ObservableProperty]
+    private bool _isChanged = false;
     
     public void Load(string path)
     {
@@ -23,6 +26,7 @@ public partial class Image : ObservableObject
         OriginalImage.ColorSpace = ColorSpace.sRGB;
         
         ProcessedImage = null;
+        IsChanged = false;
     }
     
     public void Save(string path)
@@ -33,6 +37,7 @@ public partial class Image : ObservableObject
         }
 
         ProcessedImage.Write(path);
+        IsChanged = false;
     }
 
     public async void Process(ICollection<Actions.Action> actions)
@@ -53,6 +58,7 @@ public partial class Image : ObservableObject
             foreach (var action in actions.ToList())
             {
                 action.ProcessImage(tmp);
+                IsChanged = true;
             }
 
             ProcessedImage = tmp;
