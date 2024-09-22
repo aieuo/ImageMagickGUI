@@ -13,7 +13,7 @@ internal class ResizeAction : Action
 
     public override string IconPath => "../../Resources/resolution.png";
 
-    internal ResizeAction() : this(new Scale(100), new Scale(100))
+    internal ResizeAction() : this(Scale.Percent(100), Scale.Percent(100))
     {
     }
 

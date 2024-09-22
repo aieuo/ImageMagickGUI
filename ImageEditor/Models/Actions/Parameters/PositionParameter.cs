@@ -14,8 +14,8 @@ public class PositionParameter : ActionParameter<Position>
         : this(
             name,
             description,
-            new ScaleParameter("x", "x", x),
-            new ScaleParameter("y", "y", y)
+            new ScaleParameter("x", "x", x, 0, 100),
+            new ScaleParameter("y", "y", y, 0, 100)
         )
     {
     }

@@ -14,7 +14,7 @@ internal class CropAction : Action
 
     public override string IconPath => "../../Resources/crop.png";
 
-    internal CropAction() : this(new Scale(100), new Scale(100), new Scale(0, Scale.ScaleType.Pixel), new Scale(0, Scale.ScaleType.Pixel))
+    internal CropAction() : this(Scale.Percent(100), Scale.Percent(100), Scale.Pixel(0), Scale.Pixel(0))
     {
     }
 

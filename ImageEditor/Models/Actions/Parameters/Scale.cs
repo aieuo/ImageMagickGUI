@@ -10,11 +10,19 @@ public partial class Scale(float value, Scale.ScaleType type = Scale.ScaleType.P
         Percent,
     }
 
-    [ObservableProperty]
-    private float _value = value;
+    [ObservableProperty] private float _value = value;
 
-    [ObservableProperty]
-    private ScaleType _type = type;
+    [ObservableProperty] private ScaleType _type = type;
+
+    public static Scale Pixel(float value)
+    {
+        return new Scale(value, ScaleType.Pixel);
+    }
+
+    public static Scale Percent(float value)
+    {
+        return new Scale(value);
+    }
 
     public float ToPixel(uint max)
     {

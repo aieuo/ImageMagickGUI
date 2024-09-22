@@ -14,7 +14,7 @@ internal class ExtentAction : Action
 
     public override string IconPath => "../../Resources/boundary.png";
 
-    internal ExtentAction() : this(new Scale(100), new Scale(100), Colors.White)
+    internal ExtentAction() : this(Scale.Percent(100), Scale.Percent(100), Colors.White)
     {
     }
 
