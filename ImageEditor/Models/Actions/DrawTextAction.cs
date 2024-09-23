@@ -15,7 +15,7 @@ internal class DrawTextAction : Action
 
     public override string IconPath => "../../Resources/text-formatting.png";
 
-    internal DrawTextAction() : this("", 16, Scale.Percent(0), Scale.Percent(0), Colors.Black)
+    internal DrawTextAction() : this("", 16, Scale.Percent(10), Scale.Percent(10), Colors.Black)
     {
     }
 
@@ -44,9 +44,10 @@ internal class DrawTextAction : Action
         drawable.FontPointSize(fontSize);
         drawable.Text(
             position.X.Value.ToPixel(image.Width),
-            position.Y.Value.ToPixel(image.Width),
+            position.Y.Value.ToPixel(image.Height) + fontSize,
             text
         );
+        Console.WriteLine(drawable);
         
         image.Draw(drawable);
     }

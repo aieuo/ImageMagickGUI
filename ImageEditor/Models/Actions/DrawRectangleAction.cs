@@ -36,9 +36,9 @@ internal class DrawRectangleAction : Action
         drawable.FillColor(color);
         drawable.Rectangle(
             offset.X.Value.ToPixel(image.Width),
-            offset.Y.Value.ToPixel(image.Width),
+            offset.Y.Value.ToPixel(image.Height),
             offset.X.Value.ToPixel(image.Width) + size.Width.Value.ToPixel(image.Width),
-            offset.Y.Value.ToPixel(image.Width) + size.Height.Value.ToPixel(image.Width)
+            offset.Y.Value.ToPixel(image.Height) + size.Height.Value.ToPixel(image.Height)
         );
         
         image.Draw(drawable);

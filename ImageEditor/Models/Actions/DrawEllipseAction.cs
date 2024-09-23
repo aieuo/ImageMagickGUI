@@ -36,9 +36,9 @@ internal class DrawEllipseAction : Action
         drawable.FillColor(color);
         drawable.Ellipse(
             center.X.Value.ToPixel(image.Width),
-            center.Y.Value.ToPixel(image.Width),
+            center.Y.Value.ToPixel(image.Height),
             size.Width.Value.ToPixel(image.Width) / 2,
-            size.Height.Value.ToPixel(image.Width) / 2,
+            size.Height.Value.ToPixel(image.Height) / 2,
             0,
             360
         );
