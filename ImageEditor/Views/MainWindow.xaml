@@ -51,10 +51,6 @@
                               Command="{Binding SaveAllCommand}"
                               InputGestureText="Ctrl+S" />
                 </MenuItem>
-                <MenuItem Header="ツール">
-                    <MenuItem Header="一括処理"
-                              Command="{Binding SaveAllCommand}" />
-                </MenuItem>
             </Menu>
         </DockPanel>
 
