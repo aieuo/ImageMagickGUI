@@ -8,16 +8,15 @@ public partial class EnumParameter<T>(string name, string description, T value, 
     [ObservableProperty]
     private T _value = value;
     
-    public new Dictionary<T, string> Options => options;
-}
-
-public class EnumParameter(string name, string description, Enum value, Dictionary<Enum, string> options)
-    : ActionParameter<Enum>(name, description, value)
-{
-    public Dictionary<Enum, string> Options => options;
+    public Dictionary<T, string> Options => options;
     
     public override string ToString()
     {
         return Value.ToString();
     }
+}
+
+public abstract class EnumParameter(string name, string description, Enum value, Dictionary<Enum, string> options)
+    : ActionParameter<Enum>(name, description, value)
+{
 }
