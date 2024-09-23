@@ -39,7 +39,8 @@ public class ActionDeserializer
         ));
         Add("Resize", parameters => new ResizeAction(
             Scale.Parse(parameters[0].Split("x")[0]),
-            Scale.Parse(parameters[0].Split("x")[1])
+            Scale.Parse(parameters[0].Split("x")[1]),
+            parameters[1] == "True"
         ));
         Add("Extent", parameters => new ExtentAction(
             Scale.Parse(parameters[0].Split("x")[0]),

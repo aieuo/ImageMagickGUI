@@ -141,6 +141,24 @@
             </StackPanel>
         </DataTemplate>
 
+        <DataTemplate x:Key="BooleanParamTemplate"
+                      DataType="{x:Type params:BooleanParameter}">
+            <StackPanel Margin="0,2">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="25" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0"
+                               Text="{Binding Description}" Margin="0,0,0,2" />
+                    <CheckBox Grid.Column="1"
+                             Margin="5,0,0,0"
+                             IsChecked="{Binding Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                </Grid>
+            </StackPanel>
+        </DataTemplate>
+
         <DataTemplate x:Key="EnumParamTemplate"
                       DataType="{x:Type params:EnumParameter}">
             <StackPanel Margin="0,2">
@@ -270,6 +288,7 @@
             FloatParamTemplate="{StaticResource FloatParamTemplate}"
             IntParamTemplate="{StaticResource IntParamTemplate}"
             StringParamTemplate="{StaticResource StringParamTemplate}"
+            BooleanParamTemplate="{StaticResource BooleanParamTemplate}"
             EnumParamTemplate="{StaticResource EnumParamTemplate}"
             ColorParamTemplate="{StaticResource ColorParamTemplate}"
             ScaleParamTemplate="{StaticResource ScaleParamTemplate}"

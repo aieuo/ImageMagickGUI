@@ -17,7 +17,7 @@ public static class ParameterUtils
         { Gravity.Southeast, "右下" },
     };
     
-    public static MagickGeometry WidthAndHeightParameterToGeometry(WidthAndHeightParameter parameter, double imageWidth, double imageHeight)
+    public static MagickGeometry WidthAndHeightParameterToGeometry(WidthAndHeightParameter parameter, double imageWidth, double imageHeight, bool keepAspectRatio = false)
     {
         var width = parameter.Width.Value;
         var height = parameter.Height.Value;
@@ -25,7 +25,7 @@ public static class ParameterUtils
         var geometry = width.Type switch
         {
             Scale.ScaleType.Percent when height.Type == Scale.ScaleType.Percent =>
-                new MagickGeometry(new Percentage(width.Value), new Percentage(height.Value)),
+                new MagickGeometry((uint)(imageWidth * width.Value / 100), (uint)(imageHeight * height.Value / 100)),
             Scale.ScaleType.Pixel when height.Type == Scale.ScaleType.Pixel =>
                 new MagickGeometry((uint)width.Value, (uint)height.Value),
             Scale.ScaleType.Percent when height.Type == Scale.ScaleType.Pixel =>
@@ -34,7 +34,7 @@ public static class ParameterUtils
                 new MagickGeometry((uint)width.Value, (uint)(imageHeight * height.Value / 100)),
             _ => throw new ArgumentException()
         };
-        geometry.IgnoreAspectRatio = true;
+        geometry.IgnoreAspectRatio = !keepAspectRatio;
         
         return geometry;
     }

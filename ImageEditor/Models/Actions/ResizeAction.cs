@@ -13,19 +13,21 @@ internal class ResizeAction : Action
 
     public override string IconPath => "../../Resources/resolution.png";
 
-    internal ResizeAction() : this(Scale.Percent(100), Scale.Percent(100))
+    internal ResizeAction() : this(Scale.Percent(100), Scale.Percent(100), true)
     {
     }
 
-    internal ResizeAction(Scale width, Scale height)
+    internal ResizeAction(Scale width, Scale height, bool keepAspectRadio)
     {
         AddParameter(new WidthAndHeightParameter("size", "サイズ", width, height));
+        AddParameter(new BooleanParameter("keepAspectRadio", "縦横比を維持する", keepAspectRadio));
     }
 
     public override void ProcessImage(MagickImage image)
     {
         var size = GetParameter<WidthAndHeightParameter>("size");
+        var keepAspectRadio = GetParameter<BooleanParameter>("keepAspectRadio").Value;
 
-        image.Resize(ParameterUtils.WidthAndHeightParameterToGeometry(size, image.Width, image.Height));
+        image.Resize(ParameterUtils.WidthAndHeightParameterToGeometry(size, image.Width, image.Height, keepAspectRadio));
     }
 }
