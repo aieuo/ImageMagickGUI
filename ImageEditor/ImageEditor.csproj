@@ -76,8 +76,6 @@
     <PackageReference Include="Moravuscz.WPFZoomPanel" Version="1.0.0" />
     <PackageReference Include="MvvmDialogs" Version="9.1.2" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="ObservableCollections" Version="3.0.4" />
-    <PackageReference Include="WPF-UI" Version="4.0.0-rc.2" />
   </ItemGroup>
 
 </Project>
