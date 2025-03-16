@@ -2,7 +2,7 @@
 
 長期インターンの選考課題として作成したImageMagick(Magick.NET)をGUIで使えるようにするアプリケーション
 
-![img.png](../.github/img.png)
+![img.png](.github/img.png)
 
 ## 動作環境
 
